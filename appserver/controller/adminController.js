@@ -2,18 +2,18 @@ const  user = require('../models/user')
 const  course = require('../models/course');
 const  exam = require('../models/exam');
 const  room = require('../models/room');
-const  mongoose = require('mongoose');
+const  subexam = require('../models/disciplines');
 // creates somethings as a class including functions and exports its module
 const adminController = {} ;
 
 
 /*
  *
- * User Controller
+ * Admin Controller
  *
  */
 
-
+// k hieu req.params , req.body , red.query ?
 // show list of users
 adminController.listUser =  function (req, res) {
 
@@ -31,82 +31,56 @@ adminController.listUser =  function (req, res) {
 // when send request for create --> redirect to view create and save ?
 // create new user
 adminController.createNewUser = function ( req ,res){
-    // let newUser = new user ( req.body )
 
-    let newUser = new user(
-        {
-            id :  '17021231' ,
-            name: 'Nguyen Duc Lam' ,
-            email  :  '@vnu.edu.vn' ,
-            password :'acx3gaf'
-        }
-    );
+    //  xu li du lieu o day ?
+    //let  userId = req.body.id ;
+    //let  userName =  req.body.name ;
+    //let  userEmail =  req.body.email ;
+    //let  userPassword =  req.body.password ;
 
-
-    // save, check if has exists ?
-    newUser.save((err) => {
-        if (err) {
-                console.log("error");
-                res.send(err);
-        }
-        else{
-            res.send(newUser);
-        }
-
-    });
-
+    let newuser = new user();
+    newuser.NewUser('1','2','3','4');
+    res.send(newuser);
 }
 
 // find an user by id
 adminController.findUserByID = function(req, res) {
-    //{_id: req.params.id}
-    user.find({ email: '@vnu.edu.vn'}).exec(function (err, employee) {
+    user.find({ id : req.params.id }).exec(function (err, user) {
         if (err) {
             console.log("Error:", err);
         }
         else {
-           // res.render("../views/employees/show", {employee: employee});
-            res.send(employee);
+           // res.render(...) ?
+            res.send(user);
         }
     });
 };
 
 // redirect to view  update and update only
-// Update an employee
+// Update an user
 adminController.updateUser = function(req, res) {
-    /*
-    user.findByIdAndUpdate(req.params.id, { $set: { name: req.body.name, address: req.body.address, position: req.body.position, salary: req.body.salary }},
-                                          { new: true }, function (err, employee) {
-        if (err) {
-            console.log(err);
-            //res.render("../views/employees/edit", {employee: req.body});
-        }
-       // res.redirect("/employees/show/"+employee._id);
 
-    }); */
-
-
-    user.findOneAndUpdate( {id:'17021231'}, { $set: { name: 'update', email:'update',password:'update' }},
-        { new: true }, function (err, employee) {
+    user.findOneAndUpdate( {id : req.params.id }, { $set: { name: req.body.name , email:req.body.email , password: req.body.password }},
+        { new: true }, function (err, updateUser ) {
             if (err) {
                 console.log(err);
             }
 
-            res.send(employee)
+            res.send('Update success' + updateUser)
     });
 };
 
-// Delete an employee
+// Delete an user
 adminController.deleteUser = function(req, res) {
     //{_id: req.params.id} // user not exist ?
-    user.findOneAndDelete({ id :'17021231'}, function(err,deleteUser) {
+    user.findOneAndDelete({ id : req.params.id },  function(err,deleteUser) {
         if(err) {
             console.log(err);
         }
         else {
             console.log("Employee deleted!");
             //res.redirect("/employees");
-            res.send(deleteUser);
+            res.send('Deleted' + deleteUser);
         }
     });
 };
@@ -132,34 +106,26 @@ adminController.listCourse =  function (req, res) {
     });
 }
 
-// create new user
+// create new course
 adminController.createNewCourse = function ( req ,res){
-    // let newUser = new user ( req.body )
-    let newCourse = new course(
-        {
-            id :  'INT1702 2019',
-            nameCourse: 'INT1702' ,
-            nameClass : 'Lap Trinh Web Python'
-        }
-    );
 
-    // save, check if has exists ?
-    newCourse.save((err) => {
-        if (err) {
-            console.log("error");
-        }
-        else{
-            res.send(newCourse);
-        }
+    let  _idCourse = req.body.idCourse ;
+    let  _idClass  = req.body.idClass ;
+    let  _nameCourse = req.body.nameCourse;
+    let  _lecturer = req.body.lecturer ;
+    let  _numOfCredit  = req.body.num ;
 
-    });
+   let newCourse =  new course();
+   newCourse.NewCourse(_idCourse, _idClass , _nameCourse , _lecturer , _numOfCredit)
+
+
 
 }
 
-// find an user by id
+// find an course by idCourse and idClass
 adminController.findCourseById = function(req, res) {
     //{_id: req.params.id}
-    course.find({ id: 'INT1702 2019'}).exec(function (err, course) {
+    course.find({ idCourse:req.params.idCourse ,idClass: req.params.idClass }).exec(function (err, course) {
         if (err) {
             console.log("Error:", err);
         }
@@ -170,21 +136,12 @@ adminController.findCourseById = function(req, res) {
     });
 };
 
-// Update an employee
+// Update an course ( update nameCourse , lecturer , numOfCredit)
 adminController.updateCourse = function(req, res) {
-    /*
-    user.findByIdAndUpdate(req.params.id, { $set: { name: req.body.name, address: req.body.address, position: req.body.position, salary: req.body.salary }},
-                                          { new: true }, function (err, employee) {
-        if (err) {
-            console.log(err);
-            //res.render("../views/employees/edit", {employee: req.body});
-        }
-       // res.redirect("/employees/show/"+employee._id);
-
-    }); */
 
 
-    course.findOneAndUpdate( {id: 'INT1702 2019'}, { $set: { nameCourse: 'update', nameClass:'update' }},
+    course.findOneAndUpdate( {idCourse : req.params.idCourse , idClass: req.params.idClass },
+                    { $set: { nameCourse: req.body.nameCourse , lecturer :req.params.lecturer , num: req.params.num }},
         { new: true }, function (err, updateCourse) {
             if (err) {
                 console.log(err);
@@ -197,7 +154,7 @@ adminController.updateCourse = function(req, res) {
 // delete course
 adminController.deleteCourse = function(req, res) {
     //{_id: req.params.id} // user not exist ?
-    course.findOneAndDelete({ id :'INT1702 2019'}, function(err,deleteCourse) {
+    course.findOneAndDelete({ idCourse : req.params.idCourse , idClass: req.params.idClass}, function(err,deleteCourse) {
         if(err) {
             console.log(err);
         }
@@ -214,15 +171,10 @@ adminController.deleteCourse = function(req, res) {
  *   Enroll course
  */
 
-// show list course
+// show list of
 adminController.listExam =  function (req, res) {
 
     exam.find({})
-        .populate({
-            path: 'room' ,
-            model : 'Room' ,
-            select : 'id'
-        })
         .exec(function(err,listExam){
         if (err) {
             console.log('Error: ' , err);
@@ -236,73 +188,49 @@ adminController.listExam =  function (req, res) {
 
 // create new user
 adminController.createNewExam = function ( req ,res){
-    // let newUser = new user ( req.body )
 
-    let newCourse = new course  ({
-        id        :  'INT1222 20',
-        nameCourse:  'INT1222',
-        nameClass :  'Li thuyet thong tin'
-    }) ;
-    newCourse.save((err) => {
-        if (err) {
-            console.log(err);
+    // get data from req ?
 
-        }
-        else{
-            console.log('success');
-        }
+    // create new course
+    let newCourse = new course();
+    newCourse.NewCourse('aaa','abc','DucLam',"mr lam", 1) ;
 
-    });
 
-    let newRoom = new room({
-        id : 'PM202-GD3' ,
-        // need do again
-        course : newCourse,
-        numberOfComputers :  30
-    });
+    //create new room 1
+    let newRoom = new room();
+    newRoom.NewRoom('102a','gd2',20,'used');
 
-    newRoom.save((err) => {
-        if (err) {
-            console.log(err);
+    //create new room 2
+    let newRoom2 = new room();
+    newRoom2.NewRoom('303a','gd4',20,'used');
 
-        }
-        else{
-            console.log('success');
-        }
+    // create rooms
+    let rooms = [] ;
+    rooms.push(newRoom);
+    rooms.push(newRoom2);
 
-    });
-    let newExam = new exam (
-        {
-            id : 'Final Exam',
-            room : newRoom
-        }
-    );
+    // tao ca thi
+    let subExam = new  subexam();
+    subExam.NewSubExam('mon toan xac xuat',rooms, newCourse,  '7h:00','30 minutes');
 
-    // save, check if has exists ?
-    newExam.save((err) => {
-        if (err) {
-            console.log('error');
-            res.send(err);
-        }
-        else{
-            res.send(newExam);
-        }
+    //
+    let subExams = [];
+    subExams.push(subExam);
 
-    });
+    let exam1  = new exam();
+    exam1.NewExam('Final Semester', subExams);
+
+    res.send(exam1);
+
+
 
 }
 
 // find exam
 adminController.findExamById = function(req, res) {
     //{_id: req.params.id}
-    exam.findOne({ id: 'Final Exam'})
-        .populate({
-            path:"room" ,
-            populate: {
-                path : "course",
-                select : 'nameCourse'
-            }
-        })
+    exam.findOne({ name: 'Final Semester'})
+
             .exec(function (err, data) {
         if (err) {
             console.log("Error:", err);
@@ -332,61 +260,14 @@ adminController.deleteExam = function(req, res) {
 
 // update
 adminController.updateExam = function(req, res) {
-    /*
-    user.findByIdAndUpdate(req.params.id, { $set: { name: req.body.name, address: req.body.address, position: req.body.position, salary: req.body.salary }},
-                                          { new: true }, function (err, employee) {
-        if (err) {
-            console.log(err);
-            //res.render("../views/employees/edit", {employee: req.body});
-        }
-       // res.redirect("/employees/show/"+employee._id);
 
-    }); */
-    let newCourse = new course  ({
-        id        :  'INT1111 20',
-        nameCourse:  'INT1222',
-        nameClass :  'Li thuyet thong tin'
-    }) ;
-    newCourse.save((err) => {
-        if (err) {
-            console.log(err);
-
-        }
-        else{
-            console.log('success');
-        }
-
-    });
-
-    let newRoom = new room({
-        id : 'PM202-GDqq3' ,
-        // need do again
-        course : newCourse,
-        numberOfComputers :  3000
-    });
-
-    newRoom.save((err) => {
-        if (err) {
-            console.log(err);
-
-        }
-        else{
-            console.log('success');
-        }
-
-    });
-
-    exam.findOneAndUpdate( {id: 'Final Exam'}, { $set: { 'room' : newRoom }},
-        { new: true }, function (err, updateCourse) {
-            if (err) {
-                console.log(err);
-            }
-
-            res.send(updateCourse)
-        });
+    // can update each object ??
 };
 
 
+adminController.printExam = function (req,res){
+    // how to in
+}
 
 // export
 module.exports = adminController ;
