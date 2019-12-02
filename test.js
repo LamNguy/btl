@@ -9,20 +9,23 @@ const port = 3000;
 
 var router = require('../web/routes/index');
 var mongoose = require('mongoose') ;
+let bodyParser = require('body-parser')
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:  true}));
 
 let connections = require('../web/appserver/config/database')
 mongoose.connect(connections.url , {useNewUrlParser: true} ,{ useFindAndModify: false }) ;
+var router = require('../web/routes/index');
 
 
-
-app.use('/lam', function(req, res) {
+app.put('/lam', function(req, res) {
 
 
     //adminController.listUser(req,res);
     //adminController.createNewUser(req,res);
-    adminController.findUserByID(req,res);
-    //adminController.updateUser();
-
+   // adminController.findUserByID(req,res);
+    adminController.updateUser(req,res);
+   // adminController.deleteUser(req,res);
     //adminController.listCourse(req,res)
     //adminController.createNewCourse(req,res);
 
@@ -34,6 +37,7 @@ app.use('/lam', function(req, res) {
     //adminController.listExam(req, res);
 });
 
+app.use('/login', router);
 
 // Make the app listen on port 3000
 app.listen(port, function() {

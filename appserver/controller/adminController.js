@@ -15,6 +15,8 @@ const adminController = {} ;
 
 // k hieu req.params , req.body , red.query ?
 // show list of users
+
+//get
 adminController.listUser =  function (req, res) {
 
     user.find({}).exec(function(err,users){
@@ -31,21 +33,23 @@ adminController.listUser =  function (req, res) {
 // when send request for create --> redirect to view create and save ?
 // create new user
 adminController.createNewUser = function ( req ,res){
-
+    console.log(req);
     //  xu li du lieu o day ?
-    //let  userId = req.body.id ;
-    //let  userName =  req.body.name ;
-    //let  userEmail =  req.body.email ;
-    //let  userPassword =  req.body.password ;
+    let  userId = req.query.id ;
+    let  userName =  req.query.name ;
+    let  userEmail =  req.query.email ;
+    let  userPassword =  req.query.password ;
 
     let newuser = new user();
-    newuser.NewUser('1','2','3','4');
+    newuser.NewUser(userId,userName,userEmail,userPassword);
     res.send(newuser);
 }
 
 // find an user by id
+// get , post : create
 adminController.findUserByID = function(req, res) {
-    user.find({ id : req.params.id }).exec(function (err, user) {
+    //console.log(req);
+    user.find({ id : req.body.id }).exec(function (err, user) {
         if (err) {
             console.log("Error:", err);
         }
@@ -59,8 +63,9 @@ adminController.findUserByID = function(req, res) {
 // redirect to view  update and update only
 // Update an user
 adminController.updateUser = function(req, res) {
+    console.log(req);
 
-    user.findOneAndUpdate( {id : req.params.id }, { $set: { name: req.body.name , email:req.body.email , password: req.body.password }},
+    user.findOneAndUpdate( {id :  req.body.id }, { $set: { name: req.body.name , email:req.body.email , password: req.body.password }},
         { new: true }, function (err, updateUser ) {
             if (err) {
                 console.log(err);
@@ -73,7 +78,7 @@ adminController.updateUser = function(req, res) {
 // Delete an user
 adminController.deleteUser = function(req, res) {
     //{_id: req.params.id} // user not exist ?
-    user.findOneAndDelete({ id : req.params.id },  function(err,deleteUser) {
+    user.findOneAndDelete({ id : req.query.id },  function(err,deleteUser) {
         if(err) {
             console.log(err);
         }

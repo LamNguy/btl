@@ -6,15 +6,17 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "body-parse": "^0.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "mongodb": "latest",
     "mongoose": "^5.7.13",
     "morgan": "~1.9.1",
-    "pug": "2.0.0-beta11",
+    "pug": "^2.0.4",
     "xlsx": "latest",
-    "mongodb": "latest"
+    "body-parser": "latest"
   },
   "devDependencies": {
     "mongo-xlsx": "^1.0.12"
