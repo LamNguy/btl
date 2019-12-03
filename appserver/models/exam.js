@@ -19,6 +19,8 @@ examSchema.methods.NewExam = function( _name , _subExams){
 
 }
 
+
+
 let exam = mongoose.model('Exam', examSchema);
 
 module.exports= exam ;

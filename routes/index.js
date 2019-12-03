@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 
-const adminController = require('../appserver/controller/adminController');
 
 
 
@@ -14,6 +13,7 @@ router.get('/', function(req, res, next) {
 router.get('/data' , function (req, res) {
   res.send({name: 'Nguyen Duc Lam'});
 });
+
 
 //============================session========================
 

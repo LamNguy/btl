@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 // Routes HTTP GET requests to the specified path "/" with the specified callback function
 
-var router = require('../web/routes/index');
+var adminRouter = require('../web/routes/admin');
 var mongoose = require('mongoose') ;
 let bodyParser = require('body-parser')
 app.use(bodyParser.json());
@@ -37,7 +37,7 @@ app.put('/lam', function(req, res) {
     //adminController.listExam(req, res);
 });
 
-app.use('/login', router);
+app.use('/admin', adminRouter);
 
 // Make the app listen on port 3000
 app.listen(port, function() {

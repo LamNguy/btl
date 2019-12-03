@@ -5,7 +5,7 @@ const  Schema = mongoose.Schema ;
 let subExamSchema = new Schema({
 
     id 	        : String ,
-    room  	    : [{ type : Schema.Types.ObjectId  , ref:'Room' }] ,
+    room 	    : [ { type : Schema.Types.ObjectId  , ref:'Room' }] ,
     course      : { type :Schema.Types.ObjectId , ref :'Course' }  ,
     date        : String,
     timeStart   : String,
