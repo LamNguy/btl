@@ -2,6 +2,7 @@ const urlExcel = './user.xlsx' ;
 const user = require('../models/user');
 const course = require('../models/course');
 const room = require('../models/room');
+const auth = require('../models/authentication')
 let   read = require('xlsx')
 let uri =  require('../config/database')
 
@@ -45,6 +46,17 @@ for ( let index in data ){
             })
             break ;
         }
+
+
+        case 'auth' : {
+            auth.insertMany(db,function (err) {
+                if (err) console.log(err)
+                else console.log('auth imported !')
+            })
+            break ;
+        }
+
+
 
         default : console.log(index + ' not imported');
     }

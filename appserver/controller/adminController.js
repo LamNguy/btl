@@ -2,7 +2,9 @@ const  user = require('../models/user')
 const  course = require('../models/course');
 const  exam = require('../models/exam');
 const  room = require('../models/room');
-const  subexam = require('../models/disciplines');
+const  shift = require('../models/shift');
+
+
 // creates somethings as a class including functions and exports its module
 const adminController = {} ;
 
@@ -13,82 +15,60 @@ const adminController = {} ;
  *
  */
 
-// k hieu req.params , req.body , red.query ?
-// show list of users
 
-//get
+// show list of users : get
 adminController.listUser =  function (req, res) {
-
-    user.find({}).exec(function(err,users){
-        if (err) {
-            console.log('Error: ' , err);
-        }
-        else {
-            console.log('Success'); // render view here
-            res.send(users);
-        }
+    user.ListUser(function (err,response) {
+        if ( err ) console.log(err);
+        else res.send(response);
     });
 }
 
-// when send request for create --> redirect to view create and save ?
-// create new user
+// create new user : post
 adminController.createNewUser = function ( req ,res){
-    console.log(req.body)
-    //  xu li du lieu o day ?
+
     let  userId = req.body.id ;
     let  userName =  req.body.name ;
     let  userEmail =  req.body.email ;
-    let  userPassword =  req.body.password ;
 
-    let newuser = new user();
-    newuser.NewUser(userId,userName,userEmail,userPassword);
-    res.send(newuser);
+    user.CreateNewUser(userId,userName,userEmail,function (err,response) {
+        if (err) console.log(err);
+        else res.send(response);
+    })
+
 }
 
-// find an user by id
-// get , post : create
+// find an user by id : get
 adminController.findUserByID = function(req, res) {
-    console.log(req.body);
-    user.find({ id : req.body.id }).exec(function (err, user) {
-        if (err) {
-            console.log("Error:", err);
+
+    user.FindUserByID(req.body.id, function (err,data) {
+        if ( err ){
+            console.log(data);
         }
-        else {
-           // res.render(...) ?
-            res.send(user);
-        }
-    });
+        else res.send(data);
+    })
+
 };
 
-// redirect to view  update and update only
-// Update an user
+// update an user : put
 adminController.updateUser = function(req, res) {
-    console.log(req);
-
-    user.findOneAndUpdate( {id :  req.body.id }, { $set: { name: req.body.name , email:req.body.email , password: req.body.password }},
-        { new: true }, function (err, updateUser ) {
-            if (err) {
-                console.log(err);
-            }
-
-            if (updateUser == null ) res.send('user not exists');
-            res.send('Update success' + updateUser);
-    });
+    let data ={};
+    data._id = req.body.id ;
+    data._name = req.body.name ;
+    data._email = req.body.email ;
+    user.UpdateUser(data,function (err,response) {
+        if ( err) console.log(err);
+        else res.send(response);
+    })
 };
 
-// Delete an user
+// delete an user : get
 adminController.deleteUser = function(req, res) {
-    //{_id: req.params.id} // user not exist ?
-    user.findOneAndDelete({ id : req.body.id },  function(err,deleteUser) {
-        if(err) {
-            console.log(err);
-        }
-        else {
-            console.log("Employee deleted!");
-            //res.redirect("/employees");
-            res.send('Deleted' + deleteUser);
-        }
-    });
+    user.RemoveUser(req.body.id,function (err,response) {
+        if ( err ) console.log(err);
+        else res.send(response);
+    })
+
 };
 
 /*
@@ -101,193 +81,123 @@ adminController.deleteUser = function(req, res) {
 // show list course
 adminController.listCourse =  function (req, res) {
 
-    course.find({}).exec(function(err,courses){
-        if (err) {
-            console.log('Error: ' , err);
-        }
-        else {
-            console.log('Success'); // render view here
-            res.send(courses);
-        }
+    course.ListCourse(function (err,response) {
+        if ( err ) console.log(err);
+        else res.send(response);
     });
-}
+};
 
 // create new course
 adminController.createNewCourse = function ( req ,res){
 
-    let  _idCourse = req.body.idCourse ;
-    let  _idClass  = req.body.idClass ;
-    let  _nameCourse = req.body.nameCourse;
+    let  _idCourse = req.body.id ;
+    let  _nameCourse = req.body.name;
     let  _lecturer = req.body.lecturer ;
     let  _numOfCredit  = req.body.num ;
 
-   let newCourse =  new course();
-   newCourse.NewCourse(_idCourse, _idClass , _nameCourse , _lecturer , _numOfCredit)
+    course.CreateNewCourse(_idCourse,_nameCourse,_lecturer,_numOfCredit, function (err,response) {
+        if( err) console.log(err);
+        else res.send(response);
+    });
 
-}
 
-// find an course by idCourse and idClass
+
+};
+
+// find an course
 adminController.findCourseById = function(req, res) {
-    //{_id: req.params.id}
-    course.find({ idCourse:req.body.idCourse ,idClass: req.body.idClass }).exec(function (err, course) {
-        if (err) {
-            console.log("Error:", err);
-        }
-        else {
-            // res.render("../views/employees/show", {employee: employee});
-            res.send(course);
-        }
+    course.FindCourseByID(req.body.id,function (err,response) {
+        if ( err ) console.log(err);
+        else res.send(response);
     });
 };
 
 // Update an course ( update nameCourse , lecturer , numOfCredit)
 adminController.updateCourse = function(req, res) {
 
-
-    course.findOneAndUpdate( {idCourse : req.body.idCourse , idClass: req.body.idClass },
-                    { $set: { nameCourse: req.body.nameCourse , lecturer :req.body.lecturer , num: req.body.num }},
-        { new: true }, function (err, updateCourse) {
-            if (err) {
-                console.log(err);
-            }
-
-            res.send(updateCourse)
-        });
+    let data = {};
+    data._id = req.body.id ;
+    data._name = req.body.name ;
+    data._lecturer = req.body.lecturer ;
+    data._num = req.body.num ;
+    course.UpdateCourse(data,function (err,response) {
+        if(err) console.log(err);
+        else res.send(response);
+    })
 };
 
 // delete course
 adminController.deleteCourse = function(req, res) {
-    //{_id: req.params.id} // user not exist ?
-    console.log(req.body);
-    course.findOneAndDelete({ idCourse : req.body.idCourse , idClass : req.body.idClass }, function(err,deleteCourse) {
-        if(err) {
-            console.log(err);
-        }
-        else {
-            if (deleteCourse == null ) res.send("can not delete");
-            console.log("Course deleted!");
-            //res.redirect("/course");
-            res.send(deleteCourse);
-        }
-    });
+
+    course.RemoveCourse(req.body.id, function (err,response) {
+        if ( err) console.log(err);
+        else res.send(response);
+    })
 };
 
+//
+adminController.pushCourse2Shift = function(req,res){
+
+    course.PushCourse2Shift(req.body.idCourse,req.body.idShift,function (err,response) {
+        if  (err) console.log(err);
+        else res.send(response);
+    })
+};
 
 /*
  *   Enroll course
  */
 
-// show list of
-adminController.listExam =  function (req, res) {
-
-    exam.find({})
-        .populate({
-            path: 'subExams',
-            populate: [{
-                path : 'room'
-            }, {
-                path : 'course'
-            }]
-        })
-        .exec(function(err,listExam){
-        if (err) {
-            console.log('Error: ' , err);
-        }
-        else {
-            console.log('Success'); // render view here
-            res.send(listExam);
-        }
-    });
-}
-
-// create new user
-adminController.createNewExam = function ( req ,res){
-
-    // get data from req ?
-
-    let subExams = [];
-
-    req.body.subExams.forEach(e=>{
-        // create new course
-        let newCourse = new course();
-        newCourse.NewCourse(e.course.idCourse,e.course.idClass
-            ,e.nameCourse,e.course.lecturer , e.course.num) ;
-
-        let rooms = [] ;
-
-        e.room.forEach(e1=>{
-            let newRoom = new room();
-            newRoom.NewRoom(e1.idRoom , e1.auditorium, e1.slots,e1.status);
-            rooms.push(newRoom);
-        })
-
-        // tao ca thi
-        let subExam = new  subexam();
-        subExam.NewSubExam(e.id, rooms , newCourse,  e.date,e.timeStart);
-
-        subExams.push(subExam);
-
-
-    });
-
-    let exam = new exam();
-    exam.NewExam(req.body.name, subExams);
-    res.send(exam);
-
-
-
+//
+adminController.listShift= function(req,res){
+    shift.ListShift(function (err,response) {
+        if ( err) console.log(err);
+        else res.send(response);
+    })
 };
 
-// find exam
-adminController.findExamById = function(req, res) {
-    //{_id: req.params.id}
-    exam.findOne({ name: req.body.name})
-        .populate({
-            path: 'subExams',
-            populate: [{
-                path : 'room'
-            }, {
-                path : 'course'
-            }]
-        })
-            .exec(function (err, data) {
-        if (err) {
-            console.log("Error:", err);
-        }
-        else {
-            // res.render("../views/employees/show", {employee: employee});
-            console.log(data);
-            res.send(data);
-        }
-    });
+adminController.createShift = function(req,res){
+
+    let _id = req.body.id;
+    let _date = req.body.date;
+    let _timeStart = req.body.timeStart ;
+    let _timeDuration = req.body.timeDuration ;
+    shift.CreateShift(_id,_date,_timeStart,_timeDuration ,function (err,response) {
+        if   (err) console.log(err);
+        else res.send(response );
+    })
 };
 
-// delete
-adminController.deleteExam = function(req, res) {
-    //{_id: req.params.id} // user not exist ?
-    exam.findOneAndDelete({ name :req.body.name }, function(err,data) {
-        if(err) {
-            console.log(err);
-        }
-        else {
-            console.log("exam deleted!");
-            //res.redirect("/employees");
-            res.send(data);
-        }
-    });
-};
-
-// update
-adminController.updateExam = function(req, res) {
-
-    // can update each object ??
+adminController.pushRoom2Shift=function(req,res){
+    room.PushRoom2Shift(req.body.idRoom,req.body.idShift,function (err,response) {
+        if (err) console.log(err);
+        else res.send(response);
+    })
 };
 
 
-adminController.printExam = function (req,res){
-    // how to in
-}
+adminController.createExam = function(req ,res){
+    exam.CreateNewExam(req.body.id,req.body.name,function (err,data) {
+        if (err)  console.log(err);
+        else res.send(data);
+    })
+};
+
+adminController.printShift = function(req,res) {
+    exam.PrintShifts(req.body.id, function (err, data) {
+        if (err) console.log(err);
+        else res.send(data);
+    });
+};
+
+adminController.pushShift2Exam = function(req,res){
+    shift.PushShift2Exam(req.body.idShift,req.body.idExam, function (err,data) {
+        if ( err) console.log(err);
+        else res.send(data);
+    })
+};
+
+
 
 // export
 module.exports = adminController ;
-
