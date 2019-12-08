@@ -80,7 +80,12 @@ examSchema.statics.PrintSchedules = function (_id, callback) {
         });
 }
 
-
+examSchema.statics.FindShift = function (_id,callback) {
+    this.find({id:_id}).exec((err,exam)=>{
+        if (err) callback(err,null);
+        else callback(null,exam);
+    })
+}
 
 
 

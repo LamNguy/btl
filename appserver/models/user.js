@@ -29,15 +29,26 @@ let userSchema = new Schema ( {
         //validate: [emailValidator, 'invalid email']
     },
 
-    subject : {
-        type : [{
-            idCourse : String ,
-            status : String ,
+    enroll :[
+        {
+            idExam: String,
+            idShift: String,
+            idRoom: String
+        }
+    ],
 
-        }],
+    subject:[
+        {
+            idCourse :String ,
+            status :{
+                type:String ,
+                enum :['passed','failed']
+            }
+        }
+    ]
 
-        default : undefined
-    }
+
+
 
 
 
@@ -106,33 +117,94 @@ userSchema.statics.RemoveUser = function(_id,callback){
 };
 
 
-userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom , callback) {
+userSchema.statics.PrintEnrollment = function(_idUser,callback){
+    this.findOne({id:_idUser},function (err,user) {
+        if(err) callback(err,null)
+        else {
+            for( var i in user.enroll){
+                let _enroll = user.enroll[i];
+                exam.find({id:_enroll.idExam},function(err,_exam){
+                    if (err) callback(err,null);
+                }).populate({
+                    path : "shift",
+                    match : [{
+                        "id" : _enroll.idShift
+                    }],
+                    populate:[{
+                        path :"room",
+                        match:[{
+                            idRoom: _enroll.idRoom,
+
+                        }],
+                        select: "idRoom name",
 
 
-    this.findOne({id:_idUser },function (err,_data) {
-        if (err) callback(err,null);
-        else  {
-            if (exam.exists({
-                id :_idExam ,
-                shift : {
-                    $elemMatch :{"shift.id":_idShift,
-
-                    }
-                },
 
 
-            },function (err,message) {
-                if(err) callback(err,null);
-                else callback(null,message);
-            }));
+                    },{
+                        path  : "course",
+                        select : "name lecturer"
+                    }],
+
+
+
+                }).exec((err,result)=>{
+                    if (err) callback(err,null);
+                    else callback(null,result);
+                })
+            }
+
 
         }
 
     })
-
-
 }
 
+
+userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom ,idCourse, callback) {
+
+    this.findOne({id:_idUser}).exec((err,user)=>{
+        if (err)  callback(err,null);
+        else {
+            exam.findOne({id:_idExam},function (err,_exam) {
+                if (err) callback(err, null);
+            }).populate({
+                path : "shift",
+                match : [{
+                    "id" : _idShift
+                }],
+                populate:{
+                    path :"room",
+                    match:[{
+                        idRoom:_idRoom
+                    }]
+
+                }
+
+
+            }).exec((err,data)=>{
+                if (err) callback(err,null)
+                if(_idRoom === data.shift[0].room[0].idRoom){
+                    room.findOneAndUpdate({idRoom:_idRoom},{$push:{users:user},$inc:{slots:-1}},{ new: true },function (err,response) {
+                        if (err) callback(err,null);
+                        else callback(null,response);
+                    });
+
+                    this.findOneAndUpdate({id:_idUser},{$push:{enroll:{
+                            idExam:_idExam,
+                            idShift :_idShift,
+                            idRoom :_idRoom
+                            }}},{new:true},function (err,users) {
+                        if(err) console.log(err);
+                       else console.log(users)
+                    });
+                }
+
+            })
+        }
+    })
+
+}
 
 let  user = mongoose.model('User', userSchema);
 

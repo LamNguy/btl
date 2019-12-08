@@ -34,6 +34,8 @@ let shiftSchema = new Schema({
 
 },{collection:'shift'});
 
+
+
 shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam , callback){
     this.findOne({id:_idShift}).exec((err,data)=>{
         if (err) callback(err,null);

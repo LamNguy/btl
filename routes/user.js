@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/show',userController.listExam);
 router.get('/enroll',userController.enrollExam);
+router.get('/print',userController.printEnrollment);
 
 //============================session========================
 
