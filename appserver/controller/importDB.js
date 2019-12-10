@@ -8,7 +8,8 @@ let uri =  require('../config/database')
 
 let mongoose = require('mongoose') ;
 
-mongoose.connect( uri.url , {useNewUrlParser: true} ,{ useFindAndModify: false }) ;
+mongoose.connect( uri.mongoURI, uri.mongoCFG)
+  .then(console.log('imported!'));
 
 let database = read.readFile(urlExcel);
 
@@ -75,15 +76,3 @@ for  ( let User in  db){
     })
 
 } */
-
-
-
-
-
-
-
-
-
-
-
-
