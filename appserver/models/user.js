@@ -14,7 +14,7 @@ let userSchema = new Schema ( {
         type :String,
         unique : true ,
         trim : true,
-        validate : [_validator.validateId, message.invalidId],
+        //validate : [_validator.validateId, message.invalidId],
         required : [true,message.canNotBlank],
         index  : true
     } ,
@@ -22,7 +22,7 @@ let userSchema = new Schema ( {
     name: {
         type: String ,
         trim : true ,
-        validate : [_validator.validateName, message.invalidName],
+        //validate : [_validator.validateName, message.invalidName],
         required : true
     },
 
@@ -32,7 +32,7 @@ let userSchema = new Schema ( {
         unique: true,
         required : [true, message.canNotBlank],
         index :true,
-        validate: [_validator.validateEmail, message.invalidName]
+        //validate: [_validator.validateEmail, message.invalidName]
     },
 
     enroll:[
@@ -219,5 +219,3 @@ userSchema.statics.checkExist = function (_idCourse,data) {
 let  user = mongoose.model('User', userSchema);
 
 module.exports = user;
-
-

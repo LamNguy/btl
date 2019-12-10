@@ -6,23 +6,27 @@ const bcrypt = require('bcryptjs')
 
 const mongoose = require('mongoose') ;
 
-const connection = mongoose.connect( cfg.mongoURI , cfg.mongoCFG)
-  .then(() => {
-    console.log('mongodb connected!...')
-    let database = reader.readFile(urlExcel);
-    console.log(database.SheetNames);
-    // get list of sheet name [ user, course , room ]
-    let data = reader.utils.sheet_to_json(database.Sheets['auth']);
+const importAccount = {}
+  const connection = mongoose.connect( cfg.mongoURI , cfg.mongoCFG)
+    .then(() => {
+      console.log('mongodb connected!...')
+      let database = reader.readFile(urlExcel);
+      console.log(database.SheetNames);
+      // get list of sheet name [ user, course , room ]
+      let data = reader.utils.sheet_to_json(database.Sheets['auth']);
 
-    for (var i = 0; i < data.length; i++)
-      data[i].password = bcrypt.hashSync(data[i].password.toString(), 8);
+      for (var i = 0; i < data.length; i++)
+        data[i].password = bcrypt.hashSync(data[i].password.toString(), 8);
 
-    auth.insertMany(data,function (err) {
-      if (err) console.log(err)
-      else console.log('auth imported !')
-    });
-  })
-  .catch(err => console.log(err));
+      auth.insertMany(data,function (err) {
+        if (err) console.log(err)
+        else console.log('auth imported !')
+      });
+    })
+    .catch(err => console.log(err));
+
+module.exports = importAccount;
+
 
 
 
