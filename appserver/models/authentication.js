@@ -12,7 +12,7 @@ let authSchema = new Schema ( {
     } ,  // also username
 
     password : {
-        type :  String
+        type :  String,
     },
     /*
     auth:{
@@ -29,6 +29,11 @@ let authSchema = new Schema ( {
     }
 
 },{collection:'authentication'});
+
+
+var hashpass = function (pass) {
+    return 'ahihi' ;
+}
 
 /*
 authSchema.methods.validatePassword = function (password) {

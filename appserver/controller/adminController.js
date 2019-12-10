@@ -3,8 +3,8 @@ const  course = require('../models/course');
 const  exam = require('../models/exam');
 const  room = require('../models/room');
 const  shift = require('../models/shift');
-
-
+const  message = require('../config/message');
+const  fresher = require('../validator/freshData');
 // creates somethings as a class including functions and exports its module
 const adminController = {} ;
 
@@ -16,31 +16,39 @@ const adminController = {} ;
  */
 
 
-// show list of users : get
+// list users
 adminController.listUser =  function (req, res) {
+
+    // step 1 : check collection exists
+
+    // step 2 : list
     user.ListUser(function (err,response) {
-        if ( err ) console.log(err);
-        else res.send(response);
+        if ( err ) res.send(err);
+        if ( response && response.length ) res.send(response);  // JSON.stringify(object)
+        else res.send(message.notFound);
     });
-}
+};
 
 // create new user : post
 adminController.createNewUser = function ( req ,res){
 
-    let  userId = req.body.id ;
-    let  userName =  req.body.name ;
-    let  userEmail =  req.body.email ;
+    let  userId =  req.body.id ;
+    let  userName =  fresher.freshData( req.body.name );
+    let  userEmail = fresher.freshData( req.body.email ) ;
 
     user.CreateNewUser(userId,userName,userEmail,function (err,response) {
-        if (err) console.log(err);
+        if (err) res.send(err.message);
         else res.send(response);
     })
+
+    // create password ???
 
 }
 
 // find an user by id : get
 adminController.findUserByID = function(req, res) {
 
+    console.log(req);
     user.FindUserByID(req.body.id, function (err,data) {
         if ( err ){
             console.log(data);
@@ -58,6 +66,7 @@ adminController.updateUser = function(req, res) {
     data._email = req.body.email ;
     user.UpdateUser(data,function (err,response) {
         if ( err) console.log(err);
+        if (response == null) console.log(response);
         else res.send(response);
     })
 };
@@ -174,7 +183,6 @@ adminController.pushRoom2Shift=function(req,res){
         else res.send(response);
     })
 };
-
 
 adminController.createExam = function(req ,res){
     exam.CreateNewExam(req.body.id,req.body.name,function (err,data) {

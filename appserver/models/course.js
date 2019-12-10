@@ -1,21 +1,26 @@
 const shift = require('../models/shift');
+const message = require('../config/message')
+let uniqueValidator = require('mongoose-unique-validator');
 let mongoose = require('mongoose');
 const Schema = mongoose.Schema ;
+
+
+
 let courseSchema = new Schema ({
 
     id :  {
-      type : String ,
-      require : true ,
-      trim : true ,
-      unique : true
-    },
+        type :String,
+        unique : true ,
+        trim : true,
+        //validate : [_validator.validateId, message.invalidId],
+        required : [true, message.canNotBlank],
+        index  : true    },
 
 
     name :  {
         type : String ,
         require : true ,
         trim : true ,
-        unique:  true
     },
     lecturer     :  {
         type : String ,

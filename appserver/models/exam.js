@@ -1,10 +1,10 @@
 const  mongoose = require('mongoose');
 const  Schema = mongoose.Schema ;
-const shift = require('../models/shift');
-const room =  require('../models/room');
-const user =  require('../models/user');
-const examSchema = new Schema({
-    id          : {
+
+
+const  examSchema = new Schema({
+    id : {
+
         type : String ,
         unique : true ,
         trim   : true ,

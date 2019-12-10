@@ -4,27 +4,28 @@ const exam = require('../models/exam');
 
 let shiftSchema = new Schema({
 
-    id 	        : {
+    id : {
         type : String ,
         unique : true ,
         require : true ,
         trim : true
     },
 
-    room 	    :{
+    room :{
        type: [ { type : Schema.Types.ObjectId  , ref:'Room' }],
        default : undefined
     },
 
-    course      : {
+    course : {
         type :Schema.Types.ObjectId ,
         ref :'Course',
         default: undefined
     },
-    date        : {
+    date : {
         type:Date
     },
-     timeStart   : {
+
+    timeStart: {
         type  : String
      },
 
@@ -35,7 +36,7 @@ let shiftSchema = new Schema({
 },{collection:'shift'});
 
 
-
+// push shifts to exam
 shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam , callback){
     this.findOne({id:_idShift}).exec((err,data)=>{
         if (err) callback(err,null);
@@ -46,16 +47,18 @@ shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam , callback){
             })
         }
     })
-}
+};
 
+// list shift
 shiftSchema.statics.ListShift = function(callback){
     this.find({}).exec(function (err,data) {
         if ( err) callback(err,null)
         else callback(null, data);
     })
-}
+};
 
-shiftSchema.statics.CreateShift = function(_id  ,  _date,_timeStart , _timeDuration ,callback ) {
+// create shift
+shiftSchema.statics.CreateShift = function(_id  , _date,_timeStart , _timeDuration ,callback ) {
     new this({
         id :_id,
         date: _date,

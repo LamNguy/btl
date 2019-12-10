@@ -23,7 +23,6 @@ const  roomSchema = new Schema({
         require : true
     },
 
-
     status : {
         type : String ,
         require : true ,

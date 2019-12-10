@@ -18,7 +18,10 @@ mongoose.connect(connections.url , {useNewUrlParser: true} ,{ useFindAndModify: 
 var router = require('../web/routes/index');
 
 let room = require('../web/appserver/models/room');
+let validator = require('../web/appserver/validator/freshData');
 
+//let data1 = "    Nguyen      Duc Lam ";
+//console.log(validator.freshData(data1));
 
 app.use('/auth', function (req,res) {
 
