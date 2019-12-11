@@ -1,18 +1,21 @@
 const shift = require('../models/shift');
+const message = require('../config/message');
 let  mongoose = require('mongoose');
 let Schema  = mongoose.Schema;
 
 const  roomSchema = new Schema({
     idRoom : {
-        type: String,
-        unique : true, // ?
-        require : true ,
+        type: String ,
+        unique : true ,
+        required : [true ,message.canNotBlank] ,
+        maxlength : 10 ,
+        index: true ,
         trim : true
     },
 
     name : {
         type : String ,
-        require : true ,
+        require : [true ,message.canNotBlank],
         trim : true
     },
 
@@ -20,20 +23,20 @@ const  roomSchema = new Schema({
         type : Number  ,
         min : 30 ,
         max : 50 ,
-        require : true
+        require : [true,message.canNotBlank]
     },
 
     status : {
         type : String ,
-        require : true ,
+        require : [true ,message.canNotBlank],
         trim : true ,
         enum : ['used','not used']
     },
 
-    // user enroll this room
+    // user enroll this room ????
     users :{
         type : [{ type : Schema.Types.ObjectId  , ref:'User' }],
-        default: undefined
+        default: undefined,
     }
 
 
@@ -52,10 +55,6 @@ roomSchema.statics.PushRoom2Shift = function  ( _idRoom ,_idShift ,  callback  )
         }
     })
 }
-
-
-
-
 
 let room = mongoose.model('Room', roomSchema);
 

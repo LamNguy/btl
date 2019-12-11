@@ -12,30 +12,33 @@ let courseSchema = new Schema ({
         type :String,
         unique : true ,
         trim : true,
-        //validate : [_validator.validateId, message.invalidId],
         required : [true, message.canNotBlank],
-        index  : true    },
-
+        index  : true  ,
+        maxlength : 10 ,
+    },
 
     name :  {
         type : String ,
-        require : true ,
-        trim : true ,
+        required : [true ,  message.canNotBlank],
+        trim : true
     },
-    lecturer     :  {
-        type : String ,
-        require : true ,
-        trim :true ,
 
+    lecturer : {
+        type : String ,
+        required :[ true , message.canNotBlank],
+        trim :true
     },
+
     num : {
         type : Number ,
-        require : true ,
+        required : [true , message.canNotBlank ],
         min : 1 ,
         max : 4
     }
 
 },{collection:'course'});
+
+
 
 // list course
 courseSchema.statics.ListCourse = function( callback){

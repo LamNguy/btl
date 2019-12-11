@@ -1,20 +1,24 @@
 const  mongoose = require('mongoose');
 const  Schema = mongoose.Schema ;
-
+const  message = require('../config/message');
 
 const  examSchema = new Schema({
-    id : {
-
+    id:{
         type : String ,
+        required :[true,message.canNotBlank],
         unique : true ,
-        trim   : true ,
-        require : true
+        trim   : true,
+        maxlength: 10
     },
 
-    name        : {
+    name : {
         type : String ,
-        require : true ,
+        required : true ,
+        trim : true,
+        maxlength:30 ,
+        minlength:11
     },
+
     shift	:{
         type: [{ type : Schema.Types.ObjectId  , ref:'Shift' }],
         default: undefined

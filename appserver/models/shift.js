@@ -4,7 +4,7 @@ const exam = require('../models/exam');
 
 let shiftSchema = new Schema({
 
-    id : {
+    id :{
         type : String ,
         unique : true ,
         require : true ,

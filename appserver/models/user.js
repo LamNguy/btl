@@ -22,6 +22,8 @@ let userSchema = new Schema ( {
     name: {
         type: String ,
         trim : true ,
+        maxlength : 30 ,
+        minlength : 5 ,
         validate : [_validator.validateName, message.invalidName],
         required : true
     },
@@ -32,7 +34,7 @@ let userSchema = new Schema ( {
         unique: true,
         required : [true, message.canNotBlank],
         index :true,
-        validate: [_validator.validateEmail, message.invalidName]
+        validate: [_validator.validateEmail, message.invalidEmail]
     },
 
     enroll:[
@@ -65,10 +67,11 @@ userSchema.statics.CreateNewUser = function ( _id, _name , _email,callback ){
         email : _email
     }).save((err,data)=>{
        if ( err) {
-           console.log(err);
+
            callback(err,null);
        }
 
+       if (!data) callback(null,message.canNotCreate);
        else callback(null,data);
 
     });
@@ -94,26 +97,33 @@ userSchema.statics.FindUserByID = function(_id , callback ){
         if ( err) {
             callback(err, null);
         }
+
+        if (!data) callback(null,message.canNotFound);
         else callback(null, data);
     })
 };
 
 // update user
 userSchema.statics.UpdateUser = function(update, callback){
+    let otp = { runValidators: true,context : 'query',new :true};
     this.findOneAndUpdate({id : update._id},{ $set: { name: update._name , email: update._email },},
-        {runValidators: true, new: true }, function (err, data ) {
+        otp, function (err, data ) {
 
             if (err) {
                 callback(err,null)
             }
+
+            if(!data) callback(null,message.NotFoundUpdate);
             else callback(null,data)
         });
+
 };
 
 // delete user
 userSchema.statics.RemoveUser = function(_id,callback){
     this.findOneAndRemove({id:_id},function (err,data) {
         if ( err ) callback(err,null) ;
+        if (!data) callback(null,message.NotFoundDelete);
         else callback(null, data);
     })
 };
@@ -122,6 +132,8 @@ userSchema.statics.RemoveUser = function(_id,callback){
 userSchema.statics.PrintEnrollment = function(_idUser,callback){
     this.findOne({id:_idUser},function (err,user) {
         if(err) callback(err,null);
+
+        if (!user) callback(null,'User can not find');
         else {
             for( let i in user.enroll){
                 let _enroll = user.enroll[i];
