@@ -3,12 +3,13 @@ const user = require('../models/user');
 const course = require('../models/course');
 const room = require('../models/room');
 const auth = require('../models/authentication')
-let   read = require('xlsx')
-let uri =  require('../config/database')
+const   read = require('xlsx')
+const uri =  require('../config/database')
+const importAcc = require('./importAuth')
+const mongoose = require('mongoose') ;
 
-let mongoose = require('mongoose') ;
-
-mongoose.connect( uri.url , {useNewUrlParser: true} ,{ useFindAndModify: false }) ;
+mongoose.connect( uri.mongoURI, uri.mongoCFG)
+  .then(console.log('imported!'));
 
 let database = read.readFile(urlExcel);
 
@@ -47,20 +48,9 @@ for ( let index in data ){
             break ;
         }
 
-
-        case 'auth' : {
-            auth.insertMany(db,function (err) {
-                if (err) console.log(err)
-                else console.log('auth imported !')
-            })
-            break ;
-        }
-
-
-
-        default : console.log(index + ' not imported');
     }
 }
+
 
 // do not care
 /*
@@ -75,15 +65,3 @@ for  ( let User in  db){
     })
 
 } */
-
-
-
-
-
-
-
-
-
-
-
-

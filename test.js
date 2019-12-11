@@ -1,24 +1,25 @@
 // Import the top-level function of express
 const express = require('express');
-const adminController = require('../web/appserver/controller/adminController');
+const adminController = require('./appserver/controller/adminController');
 // Creates an Express application using the top-/level function
 const app = express();
 // Define port number as 3000
-const port = 3000;
+const port = 5000;
 // Routes HTTP GET requests to the specified path "/" with the specified callback function
-var userRouter = require('../web/routes/user')
-var adminRouter = require('../web/routes/admin');
+var userRouter = require('./routes/user')
+var adminRouter = require('./routes/admin');
 var mongoose = require('mongoose') ;
 let bodyParser = require('body-parser')
-let connections = require('../web/appserver/config/database');
+let connections = require('./appserver/config/database');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:  true}));
-let subExam = require('./appserver/models/shift');
-mongoose.connect(connections.url , {useNewUrlParser: true} ,{ useFindAndModify: false }) ;
-var router = require('../web/routes/index');
+const subExam = require('./appserver/models/shift');
+mongoose.connect(connections.mongoURI, connections.mongoCFG)
+  .then(console.log('mongodb connected! ..'));
+var router = require('./routes/index');
 
-let room = require('../web/appserver/models/room');
-let validator = require('../web/appserver/validator/freshData');
+const room = require('./appserver/models/room');
+const validator = require('./appserver/validator/freshData');
 
 //let data1 = "    Nguyen      Duc Lam ";
 //console.log(validator.freshData(data1));

@@ -14,7 +14,7 @@ let userSchema = new Schema ( {
         type :String,
         unique : true ,
         trim : true,
-        validate : [_validator.validateId, message.invalidId],
+        //validate : [_validator.validateId, message.invalidId],
         required : [true,message.canNotBlank],
         index  : true
     } ,
@@ -231,5 +231,3 @@ userSchema.statics.checkExist = function (_idCourse,data) {
 let  user = mongoose.model('User', userSchema);
 
 module.exports = user;
-
-
