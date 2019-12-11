@@ -31,9 +31,9 @@ let authSchema = new Schema ( {
 },{collection:'authentication'});
 
 
-var hashpass = function (pass) {
-    return 'ahihi' ;
-}
+//var hashpass = function (pass) {
+  //  return 'ahihi' ;
+//}
 
 /*
 authSchema.methods.validatePassword = function (password) {
@@ -62,5 +62,3 @@ var sha512 = function (password, salt) {
 
 const auth = mongoose.model('Auth', authSchema);
 module.exports = auth;
-
-

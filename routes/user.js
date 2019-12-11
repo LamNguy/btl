@@ -18,8 +18,4 @@ router.get('/print',userController.printEnrollment);
 //============================session========================
 
 
-
-
-
-
 module.exports = router;
