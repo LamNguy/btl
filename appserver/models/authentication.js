@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const crypto = require('crypto');
-let uniqueValidator = require('mongoose-unique-validator');
+const bcrypt = require('bcryptjs')
 const Schema = mongoose.Schema;
 
 let authSchema = new Schema ( {
@@ -30,35 +29,19 @@ let authSchema = new Schema ( {
 
 },{collection:'authentication'});
 
-
-//var hashpass = function (pass) {
-  //  return 'ahihi' ;
-//}
-
 /*
-authSchema.methods.validatePassword = function (password) {
-    return sha512(password, this.auth.salt) === this.auth.password;
-};
-
-
-var genRandomString = function (length) {
-    return crypto
-        .randomBytes(Math.ceil(length / 2))
-        .toString('hex')
-        .slice(0, length);
-};
-
-var sha512 = function (password, salt) {
-    var hash = crypto.createHmac('sha512', salt);
-    hash.update(password);
-    var hashedPassword = hash.digest('hex');
-    // return {
-    //   salt: salt,
-    //   password: hashedPassword
-    // };
-    return hashedPassword;
-}; */
-
-
+authSchema.methods.comparePassword = (pass) => {
+  return bcrypt.compare(password, user.password, (err, isMatch) => {
+    if (err) throw err;
+    if (isMatch) {
+      return done(null, user, );
+    } else {
+      return done(null, false, {
+        message: 'password incorrect!'
+      })
+    }
+  })
+}
+*/
 const auth = mongoose.model('Auth', authSchema);
 module.exports = auth;

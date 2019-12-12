@@ -4,8 +4,10 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const session = require('express-session');
 const User = require('../appserver/models/authentication')
+const jwt = require('jsonwebtoken')
+const authController = require('../appserver/controller/authController')
 
-
+/*
 const redirectLogin = (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/index/login')
@@ -18,38 +20,24 @@ const redirectHome = (req, res, next) => {
   } else next();
 }
 
-
-/* GET home page. */
-router.get('/home', function(req, res, next) {
-
-  res.send('logged');
-})
-
-router.get('/data' , function (req, res) {
-  res.send({name: 'Nguyen Duc Lam'});
-});
+*/
 
 
 
 
-router.get('/loginSuccess', (req, res) => {
-  res.send(`login success`);
-  console.log(JSON.stringify(req.session.passport))
-})
-
-router.post('/login', (req, res, next) => {
+router.post('/login',
   passport.authenticate('local', {
-    successRedirect: '/index/home',
-    failureRedirect: '/index/login',
-    failureFlash: false
-  })(req, res, next);
-})
+    //successRedirect: 'http://localhost:5000/home',
+    //failureRedirect: '/index/login',
+    //failureFlash: false
+  }),
+  authController.signIn
+  );
 
 router.get('/login', (req, res) => {
   res.send(`please login`)
 })
-
-
+router.get('/admin', authController.verifyToken, authController.checkToken)
 //============================session========================
 
 

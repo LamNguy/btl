@@ -1,11 +1,21 @@
-var express = require('express');
-var router = express.Router();
-
-let adminController = require('../appserver/controller/adminController')
-
+const express = require('express');
+const router = express.Router();
+const adminController = require('../appserver/controller/adminController')
+const authController = require('../appserver/controller/authController')
+const jwt = require('jsonwebtoken')
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    res.send('admin home page - /user or /exam or /course ');
+
+router.get('/', authController.verifyToken, (req, res) => {
+  jwt.verify(req.token, 'secretkey',  (err, authData) => {
+    if(err || authData.user.level !== 'admin') {
+      res.sendStatus(403);
+    } else {
+      res.json({
+        message: 'logged',
+        //authData
+      })
+    }
+  })
 });
 
 
