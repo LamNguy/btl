@@ -17,7 +17,9 @@ validator.validateId  =function (id) {
 validator.validateName =function (name){
 
 
+
     let regExp = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶ" +            "ẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợ" +            "ụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$/ ;
+
     return regExp.test(name);
 }
 

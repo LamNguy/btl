@@ -12,9 +12,7 @@ module.exports = function(passport) {
       usernameField: 'account'
     }, (req, account, password, done) => {
       //match User
-      User.findOne({
-          account: account
-        })
+      User.findOne({account: account})
         .then(user => {
           if (!user) {
             return done(null, false, {
@@ -24,7 +22,6 @@ module.exports = function(passport) {
           //match password
           bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) throw err;
-
             if (isMatch) {
               return done(null, user, );
             } else {
@@ -39,12 +36,10 @@ module.exports = function(passport) {
   );
 
   passport.serializeUser(function(user, done) {
-    done(null, user.id);
+    done(null, user);
   });
 
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
-    });
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
   });
 }

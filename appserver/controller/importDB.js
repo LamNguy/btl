@@ -8,48 +8,46 @@ const uri =  require('../config/database')
 const importAcc = require('./importAuth')
 const mongoose = require('mongoose') ;
 
-mongoose.connect( uri.mongoURI, uri.mongoCFG)
-  .then(console.log('imported!'));
+var connection = mongoose.connect( uri.mongoURI, uri.mongoCFG)
+  .then(() => {
+    console.log('connected to mongodb');
+      });
+    let database = read.readFile(urlExcel);
+    // get list of sheet name [ user, course , room ]
+    let data = database.SheetNames;
+    // insert database
+    for ( let index in data ){
+        // console.log(index);
+        let db = read.utils.sheet_to_json(database.Sheets[data[index]]);
+        switch (data[index] ) {
+            case 'user' : {
+                user.insertMany(db,function (err) {
+                    if (err) console.log(err)
+                    else console.log('user imported !')
+                })
+                break ;
+            }
 
-let database = read.readFile(urlExcel);
+            case 'course':  {
+                course.insertMany(db,function (err) {
+                    if (err) console.log(err)
+                    else console.log('course imported !')
+                })
+                break ;
+            }
 
-// get list of sheet name [ user, course , room ]
-let data = database.SheetNames;
+            case 'room' : {
+                room.insertMany(db,function (err) {
+                    if (err) console.log(err)
+                    else console.log('room imported !')
+                })
+                break ;
+            }
 
-// insert database
-for ( let index in data ){
-    // console.log(index);
-    let db = read.utils.sheet_to_json(database.Sheets[data[index]]);
-
-    switch (data[index] ) {
-
-        case 'user' : {
-            user.insertMany(db,function (err) {
-                if (err) console.log(err)
-                else console.log('user imported !')
-            })
-
-            break ;
         }
-
-        case 'course':  {
-            course.insertMany(db,function (err) {
-                if (err) console.log(err)
-                else console.log('course imported !')
-            })
-            break ;
-        }
-
-        case 'room' : {
-            room.insertMany(db,function (err) {
-                if (err) console.log(err)
-                else console.log('room imported !')
-            })
-            break ;
-        }
-
     }
-}
+
+
 
 
 // do not care
