@@ -5,18 +5,7 @@ const authController = require('../appserver/controller/authController')
 const jwt = require('jsonwebtoken')
 /* GET home page. */
 
-router.get('/', authController.verifyToken, (req, res) => {
-  jwt.verify(req.token, 'secretkey',  (err, authData) => {
-    if(err || authData.user.level !== 'admin') {
-      res.sendStatus(403);
-    } else {
-      res.json({
-        message: 'logged',
-        //authData
-      })
-    }
-  })
-});
+router.get('/', authController.verifyToken, authController.checkAdminToken);
 
 
 // user

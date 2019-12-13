@@ -37,7 +37,6 @@ router.post('/login',
 router.get('/login', (req, res) => {
   res.send(`please login`)
 })
-router.get('/admin', authController.verifyToken, authController.checkToken)
 //============================session========================
 
 

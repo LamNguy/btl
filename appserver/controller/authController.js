@@ -9,11 +9,14 @@ require('../config/passport')(passport);
 exports.signIn = (req, res) => {
     const user = req.user;
     jwt.sign({user: user}, 'secretkey', {expiresIn: '7200s'}, (err, token) => {
-      res.json({token, level: user.level})
+      res.json({token,
+        authData: user,
+        message: "login success",
+        success: true})
     })
   }
 
-exports.checkToken = (req, res) => {
+exports.checkAdminToken = (req, res) => {
   jwt.verify(req.token, 'secretkey',  (err, authData) => {
     if(err || authData.user.level !== 'admin') {
       res.sendStatus(403);
