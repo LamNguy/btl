@@ -2,13 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 var userController = require('../appserver/controller/userController');
-
+const authController = require('../appserver/controller/authController')
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    res.send('user home page show/enroll/print/unenroll');
-});
+router.get('/', authController.verifyToken, authController.checkStudentToken);
 
 
 router.get('/show',userController.listExam);

@@ -71,7 +71,7 @@ app.get('/home', (req, res) => {
   res.send(`hello`);
 })
 
-
+app.get('/login/token', authController.verifyToken, authController.loggedToken)
 // Make the app listen on port 5000
 app.listen(port, function() {
     console.log('Server listening on http://localhost:' + port);
