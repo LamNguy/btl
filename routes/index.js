@@ -25,7 +25,7 @@ const redirectHome = (req, res, next) => {
 
 
 
-router.post('/login',
+router.post('/',
   passport.authenticate('local', {
     //successRedirect: 'http://localhost:5000/home',
     //failureRedirect: '/index/login',
@@ -35,8 +35,9 @@ router.post('/login',
   );
 
 
-router.get('/login', authController.verifyToken, authController.loggedToken)
+router.get('/', authController.verifyToken, authController.loggedToken)
 //============================session========================
 
+router.get('/token', authController.verifyToken, authController.loggedToken)
 
 module.exports = router;

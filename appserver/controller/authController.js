@@ -9,8 +9,8 @@ require('../config/passport')(passport);
 exports.signIn = (req, res) => {
     const user = req.user;
     jwt.sign({user: user}, 'secretkey', {expiresIn: '7200s'}, (err, token) => {
-      res.json({token,
-        authData: user,
+      res.json({
+        authData: {token: token, user: user},
         message: "success",
         success: true
       })
@@ -18,29 +18,62 @@ exports.signIn = (req, res) => {
   }
 
 exports.checkAdminToken = (req, res) => {
-  jwt.verify(req.token, 'secretkey',  (err, authData) => {
+  /*jwt.verify(req.token, 'secretkey',  (err, authData) => {
     if(err || authData.user.level !== 'admin') {
       res.sendStatus(403);
     } else {
       res.json({
-        message: 'logged as admin',
-        authData
+        authData,
+        message: 'logged as admin successfully',
+        success: true
       })
     }
-  })
+  })*/
+
+
+
+//Synchronously
+  try {
+    const decode = jwt.verify(req.token, 'secretkey')
+      if(decode.user.level === 'admin')
+        res.json({token: req.token,
+                  authData: decode,
+                  message: 'logged as admin successfully',
+                  success: true
+        });
+      else res.sendStatus(403);
+  } catch(err) {
+    res.sendStatus(403)
+  }
 }
 
 exports.checkStudentToken = (req, res) => {
-  jwt.verify(req.token, 'secretkey',  (err, authData) => {
+  /*jwt.verify(req.token, 'secretkey',  (err, authData) => {
     if(err || authData.user.level !== 'user') {
       res.sendStatus(403);
     } else {
       res.json({
-        message: 'logged as student',
-        authData
+        authData,
+        message: 'logged as student successfully',
+        success: true
       })
     }
-  })
+  })*/
+
+
+  //Synchronously
+  try {
+    const decode = jwt.verify(req.token, 'secretkey')
+      if(decode.user.level === 'user')
+        res.json({token: req.token,
+                  authData: decode,
+                  message: 'logged as student successfully',
+                  success: true
+        });
+      else res.sendStatus(403);
+  } catch(err) {
+    res.sendStatus(403)
+  }
 }
 
 exports.verifyToken = (req, res, next) => {
@@ -61,14 +94,28 @@ exports.verifyToken = (req, res, next) => {
 }
 
 exports.loggedToken = (req, res) => {
-  jwt.verify(req.token, 'secretkey',  (err, authData) => {
+  /*jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
       res.sendStatus(403);
     } else {
       res.json({
-        message: 'logged',
-        authData
+        authData,
+        message: 'logged successfully',
+        success: true
       })
     }
-  })
+  })*/
+
+
+
+  try {
+    const decode = jwt.verify(req.token, 'secretkey')
+      res.json({token: req.token,
+                authData: decode,
+                message: 'logged successfully',
+                success: true
+      });
+  } catch(err) {
+    res.sendStatus(403)
+  }
 }
