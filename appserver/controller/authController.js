@@ -10,7 +10,8 @@ exports.signIn = (req, res) => {
     const user = req.user;
     jwt.sign({user: user}, 'secretkey', {expiresIn: '7200s'}, (err, token) => {
       res.json({
-        authData: {token: token, user: user},
+        token,
+        authData: {user: user},
         message: "success",
         success: true
       })

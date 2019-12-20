@@ -64,8 +64,8 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
 
-app.use('/admin', adminRouter);
-app.use ('/user', userRouter);
+app.use('/', adminRouter);
+app.use ('/', userRouter);
 app.use('/login', indexRouter);
 app.get('/home', (req, res) => {
   res.send(`hello`);
