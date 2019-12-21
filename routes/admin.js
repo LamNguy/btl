@@ -8,16 +8,19 @@ const jwt = require('jsonwebtoken')
 router.get('/', authController.verifyToken, authController.checkAdminToken);
 
 
-// user
-router.get('/user', function (req,res,next) {
-    res.send('user management /list /create /find /update /delete ')
+
+router.get('/user', function (req,res) {
+    res.send('home page user');
 })
 
 router.get('/user/list', adminController.listUser) ;
 router.post('/user/create',adminController.createNewUser);
-router.get('/user/find',adminController.findUserByID);
-router.put('/user/update',adminController.updateUser);
-router.get('/user/delete', adminController.deleteUser);
+
+router.route('/user/:id')
+    .get(adminController.findUserByID)
+    .delete(adminController.deleteUser)
+    .put(adminController.updateUser);
+
 
 // course
 router.get('/course', function (req, res) {

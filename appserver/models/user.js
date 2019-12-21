@@ -169,26 +169,25 @@ userSchema.statics.RemoveUser = function(_id){
 // student print enrollment
 userSchema.statics.PrintEnrollment = function(_idUser){
     return new Promise(((resolve, reject) => {
-        this.findOne({id:_idUser}).then((user,err)=>{
-            if(err) reject(err);
+        this.findOne({id:_idUser}).then((user)=>{
 
             if (!user) reject('not find student');
             else {
+
+                let results = {};
                 for( let i in user.enroll){
-                    let _enroll = user.enroll[i];
-                    exam.find({id:_enroll.idExam},function(err1,_exam){
-                        if (err1) reject(err1)
-                        if (!_exam) reject('student not enroll any exam');
-                    })
+                    let enrollment = user.enroll[i];
+                    exam.findOne({id:enrollment.idExam})
+
                         .populate({
                             path : "shift",
                             match : [{
-                                "id" : _enroll.idShift
+                                "id" : enrollment.idShift
                             }],
                             populate:[{
                                 path :"room",
                                 match:[{
-                                    idRoom: _enroll.idRoom,
+                                    idRoom: enrollment.idRoom,
 
                                 }],
                                 select: "idRoom name",
@@ -196,25 +195,32 @@ userSchema.statics.PrintEnrollment = function(_idUser){
                             },{
                                 path  : "course",
                                 select : "name lecturer"
-                            }],
+                            }]
                         })
-                        .then((result,err3)=>{
-                            if (err3 ) reject(err3);
-                            if ( result ) reject('not enroll any room');
+                        .then((result)=>{
+                               // console.log(result);
+                                results.push(result);
+                                console.log(results);
+                        }).catch(err=>{
+                            reject(err);
+                    })
 
-                            resolve(result);
-                        })
+                    resolve(results);
+
                 }
 
             }
 
-        })
+
+        }).catch(err=>{
+
+            reject(err)})
 
     }))
 
 };
 
-
+// student enroll
 userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom ) {
 
     return new Promise(((resolve, reject) => {
@@ -279,6 +285,7 @@ userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom ) {
 
 };
 
+// student print enroll
 userSchema.statics.UnEnroll = function ( _idUser, _idExam ,_idShift ,_idRoom){
     return new Promise(((resolve, reject) => {
         //const otp = { runValidators: true,context : 'query',new:true};
@@ -304,6 +311,7 @@ userSchema.statics.UnEnroll = function ( _idUser, _idExam ,_idShift ,_idRoom){
     }))
 };
 
+//
 userSchema.statics.checkExist = function (_idCourse,data) {
     for ( let i in  data.subject){
         if ( data.subject[i].idCourse === _idCourse) return true ;

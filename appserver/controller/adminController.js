@@ -40,8 +40,8 @@ adminController.createNewUser = function ( req ,res){
 
 // find an user
 adminController.findUserByID = function(req, res) {
-
-    user.FindUserByID(req.body.id).then(response=>{
+    console.log(req);
+    user.FindUserByID(req.params.id).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);
@@ -52,7 +52,7 @@ adminController.findUserByID = function(req, res) {
 // update an user
 adminController.updateUser = function(req, res) {
     let data ={};
-    data._id = req.body.id ;
+    data._id = req.params.id ;
     data._name = req.body.name ;
     data._email = req.body.email ;
     user.UpdateUser(data).then(response=>{
@@ -64,7 +64,7 @@ adminController.updateUser = function(req, res) {
 
 // delete an user
 adminController.deleteUser = function(req, res) {
-    user.RemoveUser(req.body.id).then(response=>{
+    user.RemoveUser(req.params.id).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);
