@@ -1,4 +1,4 @@
-const  user = require('../models/user')
+const  user = require('../models/user');
 const  course = require('../models/course');
 const  exam = require('../models/exam');
 const  room = require('../models/room');
@@ -88,6 +88,22 @@ adminController.listCourse =  function (req, res) {
     })
 };
 
+
+/*
+*    Room
+*
+*
+ */
+
+adminController.pushRoom2Shift=function(req,res){
+    room.PushRoom2Shift(req.body.idRoom,req.body.idShift).then(response=>{
+        res.send(response);
+    }).catch(err=>{
+        res.send(err);
+    })
+};
+
+
 // create course
 adminController.createNewCourse = function ( req ,res){
 
@@ -105,7 +121,7 @@ adminController.createNewCourse = function ( req ,res){
 
 // find course
 adminController.findCourseById = function(req, res) {
-    course.FindCourseByID(req.body.id).then(response=>{
+    course.FindCourseByID(req.params.id).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);
@@ -116,7 +132,7 @@ adminController.findCourseById = function(req, res) {
 adminController.updateCourse = function(req, res) {
 
     let data = {};
-    data._id = req.body.id ;
+    data._id = req.params.id ;
     data._name = req.body.name ;
     data._lecturer = req.body.lecturer ;
     data._num = req.body.num ;
@@ -130,14 +146,14 @@ adminController.updateCourse = function(req, res) {
 // delete course
 adminController.deleteCourse = function(req, res) {
 
-    course.RemoveCourse(req.body.id).then(response=>{
+    course.RemoveCourse(req.params.id).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);
     })
 };
 
-//----------------------------------------------------------
+// add course to shift
 adminController.pushCourse2Shift = function(req,res){
 
     course.PushCourse2Shift(req.body.idCourse,req.body.idShift).then(response=>{
@@ -147,13 +163,46 @@ adminController.pushCourse2Shift = function(req,res){
     })
 };
 
+// remove course from shift
+adminController.removeCourseFromShift =  function(req,res){
+    course.PullCourse2Shift(req.body.idCourse,req.body.idShift).then(response=>{
+        res.send(response);
+    }).catch(err=>{
+        res.send(err);
+    })
+};
+
 
 
 /*
- *   Enroll course
+ *   Shift management
  */
 
-//
+
+adminController.findShiftById = function(req,res){
+    shift.FindShift(req.params.id).then(response=>{
+        res.send(response);
+    }).catch(err=>{
+        res.send(err);
+    })
+};
+
+adminController.removeShift = function(req,res){
+    shift.RemoveShift(req.params.id).then(response=>{
+        res.send(response);
+    }).catch(err=>{
+        res.send(err);
+    })
+};
+
+adminController.updateShift = function(req,res){
+    let id = req.params.id ;
+    let date = req.body.date;
+    let tStart  = req.body.timeStart ;
+    let tDuration = req.body.timeDuration;
+
+};
+
 adminController.listShift = function(req,res){
     shift.ListShift().then(response=>{
         res.send(response);
@@ -175,13 +224,15 @@ adminController.createShift = function(req,res){
     })
 };
 
-adminController.pushRoom2Shift=function(req,res){
-    room.PushRoom2Shift(req.body.idRoom,req.body.idShift).then(response=>{
+adminController.pushShift2Exam = function(req,res){
+    shift.PushShift2Exam(req.body.idShift,req.body.idExam).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);
     })
 };
+
+
 
 adminController.createExam = function(req ,res){
     exam.CreateNewExam(req.body.id,req.body.name,function (err,data) {
@@ -199,13 +250,7 @@ adminController.printShift = function(req,res) {
     })
 };
 
-adminController.pushShift2Exam = function(req,res){
-    shift.PushShift2Exam(req.body.idShift,req.body.idExam).then(response=>{
-        res.send(response);
-    }).catch(err=>{
-        res.send(err);
-    })
-};
+
 
 
 /*
@@ -239,7 +284,7 @@ adminController.createNewRoom = function ( req ,res){
 
 // find course
 adminController.findRoomById = function(req, res) {
-    room.FindRoomByID(req.body.idRoom).then(response=>{
+    room.FindRoomByID(req.params.id).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);
@@ -250,7 +295,7 @@ adminController.findRoomById = function(req, res) {
 adminController.updateRoom = function(req, res) {
 
     let data = {};
-    data._id = req.body.idRoom ;
+    data._id = req.params.id ;
     data._name = req.body.name ;
     data._slots = req.body.slots ;
     data._status = req.body.status ;
@@ -264,7 +309,7 @@ adminController.updateRoom = function(req, res) {
 // delete course
 adminController.deleteRoom = function(req, res) {
 
-    room.RemoveRoom(req.body.id).then(response=>{
+    room.RemoveRoom(req.params.id).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);

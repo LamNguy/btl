@@ -97,7 +97,7 @@ courseSchema.statics.UpdateCourse = function(update){
     })
 };
 
-// delete user
+// delete course
 courseSchema.statics.RemoveCourse = function(_id){
     return new Promise(((resolve, reject) => {
         this.findOneAndDelete({id:_id},function (err,course) {
@@ -123,7 +123,7 @@ courseSchema.statics.FindCourseByID = function(_id){
     }))
 };
 
-// add course to shift===============================================================================
+// add course to shift
 courseSchema.statics.PushCourse2Shift =  function(_idCourse, _idShift){
     return new Promise(((resolve, reject) => {
         this.findOne({id:_idCourse}).then((data,err)=>{
@@ -140,7 +140,7 @@ courseSchema.statics.PushCourse2Shift =  function(_idCourse, _idShift){
     }))
 };
 
-
+// remove course from shift
 courseSchema.statics.PullCourse2Shift =  function(_idCourse, _idShift){
     return new Promise(((resolve, reject) => {
         this.findOneAndDelete({id:_idCourse}).then((data,err)=>{

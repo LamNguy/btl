@@ -62,6 +62,8 @@ shiftSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
 shiftSchema.plugin(arrayUniquePlugin,{message:"Duplicated element in  arrays"});
 
 
+
+
 // find shift
 shiftSchema.statics.FindShift = function(_id){
     return new Promise(((resolve, reject) => {
