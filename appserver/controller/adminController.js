@@ -213,11 +213,16 @@ adminController.listShift = function(req,res){
 
 adminController.createShift = function(req,res){
 
-    let _id = req.body.id;
-    let _date = req.body.date;
-    let _timeStart = req.body.timeStart ;
-    let _timeDuration = req.body.timeDuration ;
-    shift.CreateShift(_id,_date,_timeStart,_timeDuration).then(response=>{
+    let data = {};
+    data._id = req.body.id;
+    data._date = req.body.date;
+    data._timeStart = req.body.timeStart ;
+    data._timeDuration = req.body.timeDuration ;
+
+    data._rooms = req.body.room;
+    data._course = req.body.course;
+
+    shift.CreateShift(data).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);

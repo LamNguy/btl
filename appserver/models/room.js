@@ -39,7 +39,7 @@ let  roomSchema = new Schema({
     // user enroll this room ????
     users :{
         type : [{ type : Schema.Types.ObjectId  , ref:'User',
-                  default: undefined, }],
+            default: undefined, }],
     }
 
 
@@ -54,6 +54,7 @@ roomSchema.statics.ListRoom = function(){
     return new  Promise((resolve ,reject)=>{
         this.find({}).exec(function (err,rooms) {
             if ( err) {
+
                 reject(err);
             }
 
@@ -124,7 +125,7 @@ roomSchema.statics.FindRoomByID = function(_id){
     }))
 };
 
-// add room to shift
+/*
 roomSchema.statics.PushRoom2Shift = function  ( _idRoom ,_idShift ){
     return new Promise(((resolve, reject) => {
         this.findOne({idRoom : _idRoom}).then((data,err)=>{
@@ -150,7 +151,7 @@ roomSchema.statics.PushRoom2Shift = function  ( _idRoom ,_idShift ){
     }))
 
 };
-
+*/
 // remove room to shift
 
 roomSchema.statics.PullRoom2Shift = function  ( _idRoom ,_idShift ){
@@ -181,4 +182,6 @@ roomSchema.statics.PullRoom2Shift = function  ( _idRoom ,_idShift ){
 
 
 const room = mongoose.model('Room', roomSchema);
+
+
 module.exports = room;

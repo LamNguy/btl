@@ -75,8 +75,8 @@ router.get('/shift/list',adminController.listShift);
 router.post('/shift/create',adminController.createShift);
 
 
-router.put('/shift/addRoom',adminController.pushRoom2Shift);
-router.put('/shift/addCourse',adminController.pushCourse2Shift);
+//router.put('/shift/addRoom',adminController.pushRoom2Shift);
+//router.put('/shift/addCourse',adminController.pushCourse2Shift);
 
 
 router.get('/exam', function (req, res, next) {

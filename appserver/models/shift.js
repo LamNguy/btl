@@ -3,8 +3,12 @@ let uniqueValidator = require('mongoose-unique-validator');
 let arrayUniquePlugin = require('mongoose-unique-array');
 let validator = require('../validator/validatetor');
 let message = require('../config/message');
+//const exam = require('../models/exam');
+//const room = require('../models/room');
+//const course = require('../models/course');
+
 const  Schema = mongoose.Schema ;
-const exam = require('../models/exam');
+
 
 
 let shiftSchema = new Schema({
@@ -79,34 +83,66 @@ shiftSchema.statics.FindShift = function(_id){
 // list shift
 shiftSchema.statics.ListShift = function(){
     return new Promise(((resolve, reject) => {
-        this.find({}).exec(function (err,shifts) {
-            if (err) reject(err);
-            if (!shifts) reject('can not find');
-
-            resolve(shifts)
+        this.find({}).then(shifts=>{
+            resolve(shifts);
+        }).catch(err=>{
+            reject(err);
         })
     }))
 };
 
+/*
 // create shift
-shiftSchema.statics.CreateShift = function(_id  , _date,_timeStart , _timeDuration) {
+shiftSchema.statics.CreateShift = function(data) {
+
     return new Promise(((resolve, reject) => {
         new this({
-            id :_id,
-            date: _date,
-            timeStart: _timeStart,
-            timeDuration: _timeDuration
-        }).save((err, data) => {
-            if (err) {
-                reject(err);
+            id :data._id,
+            date: data._date,
+            timeStart: data._timeStart,
+            timeDuration: data._timeDuration
+        }).save()
+            .then((_shift)=>{
+
+                    const otp = {runValidators: true, context: 'query', new: true};
+                    if (data._rooms && data._rooms.length){
+
+                        room.find({idRoom:{$in:data._rooms}}).then(results=>{
+                            console.log(results);
+                        }).catch(err1=>{
+
+                            reject(err1)
+                        })
+
+                    }
+
+
+
+                    if (data._course){
+                        course.findOne({id:data._course}).then(_course=>{
+
+                            this.updateOne({id:_shift.id},{$set : { course :_course._id}},otp,(err,result)=>{
+                                console.log(result);
+                                console.log(err);
+                                if (err) reject (err);
+
+                            });
+                        }).catch(err=>{
+                            reject (err);
+                        })
+                    }
+
+                    resolve('success');
+
             }
 
-            resolve('success');
-
-        });
+            ).catch(err=>{
+                console.log(err);
+                reject (err);
+            })
     }))
 };
-
+*/
 // delete shift
 shiftSchema.statics.RemoveShift = function (_id){
     return new Promise((resolve, reject) => {
@@ -119,7 +155,7 @@ shiftSchema.statics.RemoveShift = function (_id){
 };
 
 // update shift , find shift
-
+/*
 // push shifts to exam
 shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam){
     return new Promise (((resolve, reject) => {
@@ -159,6 +195,8 @@ shiftSchema.statics.PullShift2Exam = function(_idShift, _idExam){
 
     }))
 };
+
+ */
 const shift = mongoose.model('Shift', shiftSchema);
 
 module.exports= shift ;
