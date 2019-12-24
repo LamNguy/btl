@@ -1,10 +1,10 @@
 let  mongoose = require('mongoose');
 let uniqueValidator = require('mongoose-unique-validator');
 let arrayUniquePlugin = require('mongoose-unique-array');
-let Schema  = mongoose.Schema;
-const shift = require('../models/shift');
-const message = require('../config/message');
 
+//const shift = require('../models/shift');
+const message = require('../config/message');
+const Schema  = mongoose.Schema;
 let  roomSchema = new Schema({
     idRoom : {
         type: String ,
@@ -52,13 +52,11 @@ roomSchema.plugin(uniqueValidator,{message:'Duplicated !!!'});
 // list room
 roomSchema.statics.ListRoom = function(){
     return new  Promise((resolve ,reject)=>{
-        this.find({}).exec(function (err,rooms) {
-            if ( err) {
-
-                reject(err);
-            }
-
+        this.find({}).then(rooms=>{
             resolve(rooms);
+        }).catch(err=>{
+
+            reject(err);
         })
     })
 };
@@ -72,19 +70,17 @@ roomSchema.statics.CreateNewRoom = function ( _id, _name , _slots , _status ){
             name   : _name ,
             slots   :  _slots,
             status :  _status
-        }).save((err,room) => {
+        }).save(err => {
             if (err) {
                 reject(err);
             }
 
-            if (!room) reject('can not create');
-
-            resolve('success create room');
+            resolve(message.Success);
         });
     })
 };
 
-// update course
+// update course @@@@
 roomSchema.statics.UpdateRoom = function(update){
     return new  Promise((resolve ,reject)=>{
         const otp = { runValidators: true,context : 'query',new:true};
@@ -151,7 +147,7 @@ roomSchema.statics.PushRoom2Shift = function  ( _idRoom ,_idShift ){
     }))
 
 };
-*/
+
 // remove room to shift
 
 roomSchema.statics.PullRoom2Shift = function  ( _idRoom ,_idShift ){
@@ -178,7 +174,7 @@ roomSchema.statics.PullRoom2Shift = function  ( _idRoom ,_idShift ){
 
     }))
 
-};
+};  */
 
 
 const room = mongoose.model('Room', roomSchema);

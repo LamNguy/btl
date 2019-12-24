@@ -24,7 +24,9 @@ userController.enrollExam = function (req, res) {
 };
 
 userController.printEnrollment = function (req,  res) {
+
     user.PrintEnrollment(req.body.id).then(response=>{
+
         res.send(response);
     }).catch(err=>{
       res.send(err);

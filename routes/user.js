@@ -6,7 +6,7 @@ const authController = require('../appserver/controller/authController')
 
 
 /* GET home page. */
-router.get('/', authController.verifyToken, authController.checkStudentToken);
+//router.get('/', authController.verifyToken, authController.checkStudentToken);
 
 
 router.get('/show',userController.listExam);

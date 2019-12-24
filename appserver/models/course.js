@@ -2,7 +2,7 @@ let uniqueValidator = require('mongoose-unique-validator');
 let arrayUniquePlugin = require('mongoose-unique-array');
 let mongoose = require('mongoose');
 let validator = require('../validator/validatetor');
-const shift = require('../models/shift');
+//const shift = require('../models/shift');
 const message = require('../config/message');
 const Schema = mongoose.Schema ;
 
@@ -69,20 +69,17 @@ courseSchema.statics.CreateNewCourse = function ( _id, _name , _lecturer , _num 
            name : _name ,
            lecturer :  _lecturer,
            num :  _num
-       }).save((err,course) => {
+       }).save((err) => {
            if (err) {
                reject(err);
            }
 
-           if ( ! course ) reject('can not create');
-
-          resolve('success create course');
+          resolve(message.Success);
        });
    })
-
 };
 
-// update course
+// update course  @@@@@@
 courseSchema.statics.UpdateCourse = function(update){
     return new  Promise((resolve ,reject)=>{
         const otp = { runValidators: true,context : 'query',new:true};
@@ -109,7 +106,7 @@ courseSchema.statics.RemoveCourse = function(_id){
     }))
 };
 
-// find user by id
+// find course
 courseSchema.statics.FindCourseByID = function(_id){
     return new  Promise(((resolve, reject) => {
         this.findOne({id:_id}, function (err, course) {
@@ -123,6 +120,7 @@ courseSchema.statics.FindCourseByID = function(_id){
     }))
 };
 
+/*
 // add course to shift
 courseSchema.statics.PushCourse2Shift =  function(_idCourse, _idShift){
     return new Promise(((resolve, reject) => {
@@ -157,7 +155,7 @@ courseSchema.statics.PullCourse2Shift =  function(_idCourse, _idShift){
     }))
 };
 
-
+*/
 
 const course = mongoose.model('Course', courseSchema);
 module.exports =  course ;

@@ -3,9 +3,11 @@ let uniqueValidator = require('mongoose-unique-validator');
 let arrayUniquePlugin = require('mongoose-unique-array');
 let validator = require('../validator/validatetor');
 let message = require('../config/message');
-//const exam = require('../models/exam');
+const exam = require('../models/exam');
 //const room = require('../models/room');
-//const course = require('../models/course');
+const course = require('../models/course');
+const room = require('../models/room');
+let async = require('async');
 
 const  Schema = mongoose.Schema ;
 
@@ -22,21 +24,18 @@ let shiftSchema = new Schema({
     },
 
     room :[{
-
         type :Schema.Types.ObjectId
-        ,ref:'Room',
-        unique: true,
+        ,ref:'Room'
+        //unique: true,
           //  index : true,
           //  default : undefined
 
     }],
 
     course : {
-        type : {
-            type :Schema.Types.ObjectId ,
-            ref :'Course'
-        }
 
+        type : Schema.Types.ObjectId
+        ,ref :'Course'
        // default: undefined
     },
 
@@ -65,9 +64,6 @@ let shiftSchema = new Schema({
 shiftSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
 shiftSchema.plugin(arrayUniquePlugin,{message:"Duplicated element in  arrays"});
 
-
-
-
 // find shift
 shiftSchema.statics.FindShift = function(_id){
     return new Promise(((resolve, reject) => {
@@ -91,7 +87,6 @@ shiftSchema.statics.ListShift = function(){
     }))
 };
 
-/*
 // create shift
 shiftSchema.statics.CreateShift = function(data) {
 
@@ -99,19 +94,42 @@ shiftSchema.statics.CreateShift = function(data) {
         new this({
             id :data._id,
             date: data._date,
+            status : data._status,
             timeStart: data._timeStart,
             timeDuration: data._timeDuration
         }).save()
-            .then((_shift)=>{
+            .then(_shift=>{
 
                     const otp = {runValidators: true, context: 'query', new: true};
                     if (data._rooms && data._rooms.length){
 
                         room.find({idRoom:{$in:data._rooms}}).then(results=>{
-                            console.log(results);
-                        }).catch(err1=>{
 
-                            reject(err1)
+                            async.each(results,(object)=>{
+
+                                if (object.status === 'used'){
+
+                                } else {
+                                    room.updateOne({idRoom:object.id},{$set:{status:"used"}},otp).then(resolve=>{
+                                        this.updateOne({id:_shift.id},{$push:{room:object._id}},otp).then(a=>{
+
+                                        }).catch(e=>{
+                                            console.log(e);
+                                        })
+                                    }).catch(e=>{
+                                        console.log(e);
+                                    })
+
+
+
+                                }
+
+
+                            })
+
+                        }).catch(err=>{
+
+                            reject(err);
                         })
 
                     }
@@ -122,8 +140,7 @@ shiftSchema.statics.CreateShift = function(data) {
                         course.findOne({id:data._course}).then(_course=>{
 
                             this.updateOne({id:_shift.id},{$set : { course :_course._id}},otp,(err,result)=>{
-                                console.log(result);
-                                console.log(err);
+
                                 if (err) reject (err);
 
                             });
@@ -137,12 +154,12 @@ shiftSchema.statics.CreateShift = function(data) {
             }
 
             ).catch(err=>{
-                console.log(err);
+
                 reject (err);
             })
     }))
 };
-*/
+
 // delete shift
 shiftSchema.statics.RemoveShift = function (_id){
     return new Promise((resolve, reject) => {
@@ -154,7 +171,8 @@ shiftSchema.statics.RemoveShift = function (_id){
     })
 };
 
-// update shift , find shift
+// update shift
+
 /*
 // push shifts to exam
 shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam){
@@ -195,8 +213,7 @@ shiftSchema.statics.PullShift2Exam = function(_idShift, _idExam){
 
     }))
 };
+*/
 
- */
 const shift = mongoose.model('Shift', shiftSchema);
-
 module.exports= shift ;

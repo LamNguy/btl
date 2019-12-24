@@ -34,21 +34,20 @@ let  examSchema = new Schema({
 examSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
 examSchema.plugin(arrayUniquePlugin,{message:"Duplicated  array"});
 
+// create exam
 examSchema.statics.CreateNewExam = function( _id, _name){
     return new Promise(((resolve, reject) => {
         new this({
             id: _id,
             name :_name,
-        }).save((err,exams)=>{
+        }).save((err)=>{
             if ( err) reject(err);
-            if ( ! exams) reject('can not find');
-
-            resolve(exams);
+            resolve(message.Success);
         })
     }))
 };
 
-//=====================================================================================
+// print exam @@@@@
 examSchema.statics.PrintShifts = function ( _id ){
     return new Promise(((resolve, reject) => {
         this.find({})
@@ -60,17 +59,15 @@ examSchema.statics.PrintShifts = function ( _id ){
                     path : 'course'
                 }]
             })
-            .then((data,err)=>{
-                if (err) {
-                    reject(err);
-                }
-                else {
-                    resolve(data);
-                }
-            });
+            .then(data=>{
+                resolve(data);
+            }).catch(err=>{
+                reject(err);
+        })
     }))
 };
 
+// print shift @@@@@
 examSchema.statics.PrintSchedules = function (_id) {
     return new Promise(((resolve, reject) => {
         this.find({})
@@ -98,6 +95,5 @@ examSchema.statics.PrintSchedules = function (_id) {
     }))
 };
 
-
-const exam = mongoose.model('Exam', examSchema)
+const exam = mongoose.model('Exam', examSchema);
 module.exports= exam ;

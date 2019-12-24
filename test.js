@@ -1,7 +1,7 @@
 // Import the top-level function of express
 const express = require('express');
-const adminController = require('./appserver/controller/adminController');
-const authController = require('./appserver/controller/authController');
+//const adminController = require('./appserver/controller/adminController');
+//const authController = require('./appserver/controller/authController');
 // Creates an Express application using the top-/level function
 const app = express();
 // Define port number as 3000
@@ -16,7 +16,7 @@ let bodyParser = require('body-parser')
 const passport = require('passport')
 const session = require('express-session')
 require('./appserver/config/passport')(passport);
-const jwt = require('jsonwebtoken')
+//const jwt = require('jsonwebtoken')
 //const fileStore = require('session-file-store')(session);
 //db config
 let connections = require('./appserver/config/database');

@@ -2,13 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb3f77c5-24e8-4b1e-bc6e-032a3ea5a55a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/appserver/service/userService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/config/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/config/message.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appserver/controller/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/adminController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/userController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appserver/models/course.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/course.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/models/exam.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/exam.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/models/room.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/room.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appserver/models/shift.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/shift.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,6 +72,16 @@
       </list>
     </option>
   </component>
+  <component name="RunManager" selected="Node.js.adminController.js">
+    <configuration name="adminController.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/appserver/controller/adminController.js" working-dir="$PROJECT_DIR$/appserver/controller">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.adminController.js" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -83,7 +99,12 @@
       <workItem from="1576288145496" duration="4413000" />
       <workItem from="1576294727511" duration="11959000" />
       <workItem from="1576942525352" duration="9394000" />
-      <workItem from="1576981245993" duration="4859000" />
+      <workItem from="1576981245993" duration="8695000" />
+      <workItem from="1577009879083" duration="12255000" />
+      <workItem from="1577035320814" duration="3082000" />
+      <workItem from="1577039029372" duration="2144000" />
+      <workItem from="1577098358035" duration="23393000" />
+      <workItem from="1577150029637" duration="10588000" />
     </task>
     <servers />
   </component>
