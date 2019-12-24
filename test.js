@@ -57,11 +57,8 @@ mongoose.connect(connections.mongoURI, connections.mongoCFG)
   .then(success=>{
     console.log('Connect to mongodb successfully')
   }).catch(err=>{
-    console.log('Can not connect to mongodb');
+    console.log('Can not connect to mongodb : ' + err);
 });
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
 
 
 app.use('/', adminRouter);

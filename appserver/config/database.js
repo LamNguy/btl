@@ -4,6 +4,7 @@ module.exports = {
   mongoCFG: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex : true
     //ssl: true,
     //replicaSet: 'Cluster0-shard-0',
     //authSource: 'admin',

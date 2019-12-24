@@ -159,10 +159,10 @@ adminController.removeCourseFromShift =  function(req,res){
 
 
 /*
- *   Shift management
+ *   Shift controller
  */
 
-
+// find shift
 adminController.findShiftById = function(req,res){
     shift.FindShift(req.params.id).then(response=>{
         res.send(response);
@@ -171,6 +171,7 @@ adminController.findShiftById = function(req,res){
     })
 };
 
+// delete shift
 adminController.removeShift = function(req,res){
     shift.RemoveShift(req.params.id).then(response=>{
         res.send(response);
@@ -179,16 +180,16 @@ adminController.removeShift = function(req,res){
     })
 };
 
+// update shift @@@@@
 adminController.updateShift = function(req,res){
     let data =  {};
     data.id = req.params.id ;
     data.date = req.body.date;
     data.timeStart  = req.body.timeStart ;
     data.timeDuration = req.body.timeDuration;
-
-
 };
 
+// list shift
 adminController.listShift = function(req,res){
     shift.ListShift().then(response=>{
         res.send(response);
@@ -197,6 +198,7 @@ adminController.listShift = function(req,res){
     })
 };
 
+// create shift
 adminController.createShift = function(req,res){
 
     let data = {};
@@ -216,8 +218,7 @@ adminController.createShift = function(req,res){
     })
 };
 
-//exam
-
+// push shift to exam
 adminController.pushShift2Exam = function(req,res){
     shift.PushShift2Exam(req.body.idShift,req.body.idExam).then(response=>{
         res.send(response);
@@ -226,6 +227,12 @@ adminController.pushShift2Exam = function(req,res){
     })
 };
 
+
+/*
+ *  Exam controller
+ */
+
+//create
 adminController.createExam = function(req ,res){
     exam.CreateNewExam(req.body.id,req.body.name,function (err,data) {
         if (err)  console.log(err);
@@ -234,6 +241,7 @@ adminController.createExam = function(req ,res){
     })
 };
 
+//list
 adminController.printShift = function(req,res) {
     exam.PrintShifts(req.body.id).then(response=>{
         res.send(response);
@@ -242,9 +250,15 @@ adminController.printShift = function(req,res) {
     })
 };
 
+// update
+
+// delete
+
+// find
+
 
 /*
- *  Room
+ *  Room controller
  */
 
 // show course
