@@ -173,7 +173,7 @@ shiftSchema.statics.RemoveShift = function (_id){
 
 // update shift
 
-/*
+
 // push shifts to exam
 shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam){
     return new Promise (((resolve, reject) => {
@@ -193,7 +193,7 @@ shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam){
         })
     }))
 };
-
+/*
 // push shifts to exam  // co dc dung lai
 shiftSchema.statics.PullShift2Exam = function(_idShift, _idExam){
     return new Promise (((resolve, reject) => {

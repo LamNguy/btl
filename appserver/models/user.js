@@ -24,7 +24,7 @@ let userSchema = new Schema ( {
         type: String ,
         required : [true, message.canNotBlank],
         trim : true ,
-        maxlength : 30 ,
+        maxlength : 50 ,
         minlength : 5 ,
         validate : [_validator.validateName, message.invalidName],
     },
@@ -37,6 +37,8 @@ let userSchema = new Schema ( {
         validate: [_validator.validateEmail, message.invalidEmail],
         index :true
     },
+
+
 
     enroll:{
 
@@ -228,55 +230,63 @@ userSchema.statics.PrintEnrollment = function(_idUser){
 };
 
 // student enroll @@@@
-userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom ) {
+userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom, _idCourse ) {
 
     return new Promise(((resolve, reject) => {
-        this.findOne({id:_idUser}).then((user,err)=>{
+        this.findOne({id:_idUser}).then((user)=>{
 
-            if (err)  reject(err);
+
+
             if (!user) reject ({message:'can not find user'});
 
 
-            exam.findOne({id:_idExam})
-            .populate({
-                path : "shift",
-                match : [{
-                    "id" : _idShift
-                }],
+            if ( ! user.checkCourse(_idCourse,user.subject)){
+                reject({message : 'user can not enroll'})
+            } else {
+                exam.findOne({id:_idExam})
+                    .populate({
+                        path : "shift",
+                        match : [{
+                            "id" : _idShift
+                        }],
 
-                populate: {
-                    path :"room",
-                    match : [{
-                        "idRoom" : _idRoom
-                    }],
+                        populate: {
+                            path :"room",
+                            match : [{
+                                "idRoom" : _idRoom
+                            }],
 
-                }
+                        }
 
 
-            })
-                .then((data)=>{
-                    console.log(data);
-                    if(_idRoom === data.shift[0].room[0].idRoom){
+                    })
+                    .then((data)=>{
+                        console.log(data);
+                        if(_idRoom === data.shift[0].room[0].idRoom){
 
-                        const otp = { runValidators: true,new:true};
-                        room.updateOne({idRoom:_idRoom},{$push:{users:user._id},$inc:{slots:-1}},otp,err=>{
+                            const otp = { runValidators: true,new:true};
+                            room.updateOne({idRoom:_idRoom},{$push:{users:user._id},$inc:{slots:-1}},otp,err=>{
 
-                            if (err) reject(err);
+                                if (err) reject(err);
 
-                            this.updateOne( {id:_idUser},{$push:{enroll:{
-                                        idExam:_idExam,
-                                        idShift :_idShift,
-                                        idRoom :_idRoom
-                                    }}}
+                                this.updateOne( {id:_idUser},{$push:{enroll:{
+                                                idExam:_idExam,
+                                                idShift :_idShift,
+                                                idRoom :_idRoom
+                                            }}}
                                     ,{new :true},function (err) {
-                                    if (err) reject (err);
-                                    resolve(message.Success);
-                            });
-                    });}
+                                        if (err) reject (err);
+                                        resolve(message.Success);
+                                    });
+                            });}
 
-            }).catch(err=>{
-                reject(err);
-            })
+                    }).catch(err=>{
+                    reject(err);
+                })
+            }
+
+
+
 
         })
     }))
@@ -307,13 +317,14 @@ userSchema.statics.UnEnroll = function ( _idUser, _idExam ,_idShift ,_idRoom){
     }))
 };
 
-// ?????
-userSchema.statics.checkExist = function (_idCourse,data) {
-    for ( let i in  data.subject){
-        if ( data.subject[i].idCourse === _idCourse) return true ;
+userSchema.methods.checkCourse =  function(_idCourse ,data){
+
+    for  ( let i in data){
+        if ( data[i].idCourse === _idCourse && data[i].status === 'Qualified') return true;
     }
+
     return false ;
-};
+}
 
 const user = mongoose.model('User', userSchema);
 module.exports = user;

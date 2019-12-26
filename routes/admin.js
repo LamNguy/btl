@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const adminController = require('../appserver/controller/adminController');
 const authController = require('../appserver/controller/authController');
+const uploadFileConfig = require('../appserver/config/uploadFile');
+const uploadController = require('../appserver/controller/uploadFileController');
 //const jwt = require('jsonwebtoken')
 
 
@@ -82,13 +84,19 @@ router.route('/shift/:id')
 
 router.get('/exam', function (req, res, next) {
     res.send('exam management /list /create /update /delete');
-})
+});
 
 router.get('/exam/addShift',adminController.pushShift2Exam);
 router.get('/exam/list',adminController.printShift);
 router.post('/exam/create' , adminController.createExam);
 //router.get('/exam/delete', adminController.deleteExam);
 //router.post('/exam/update', adminController.updateExam)
+
+
+
+router.post('/import',uploadFileConfig.single('import'),uploadController.importDb);
+router.post('/update',uploadFileConfig.single('update'),uploadController.updateStudentQualified);
+router.post('/update2',uploadFileConfig.single('update2'),uploadController.updateStudentUnQualified);
 
 
 module.exports = router ;

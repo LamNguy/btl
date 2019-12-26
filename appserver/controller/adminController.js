@@ -3,6 +3,8 @@ const  course = require('../models/course');
 const  exam = require('../models/exam');
 const  room = require('../models/room');
 const  shift = require('../models/shift');
+
+
 // creates somethings as a class including functions and exports its modules
 const adminController = {} ;
 

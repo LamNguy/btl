@@ -1,15 +1,15 @@
 const urlExcel = './auth.xlsx' ;
-const auth = require('../models/authentication.js')
-const reader = require('xlsx')
-const cfg =  require('../config/database')
-const bcrypt = require('bcryptjs')
+const auth = require('../models/authentication.js');
+const reader = require('xlsx');
+const cfg =  require('../config/database');
+const bcrypt = require('bcryptjs');
 
 const mongoose = require('mongoose') ;
 
-const importAccount = {}
+const importAccount = {};
   const connection = mongoose.connect( cfg.mongoURI , cfg.mongoCFG)
     .then(() => {
-      console.log('mongodb connected!...')
+      console.log('mongodb connected!...');
       let database = reader.readFile(urlExcel);
       console.log(database.SheetNames);
       // get list of sheet name [ user, course , room ]
