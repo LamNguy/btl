@@ -89,6 +89,13 @@ router.get('/exam', function (req, res, next) {
 router.get('/exam/addShift',adminController.pushShift2Exam);
 router.get('/exam/list',adminController.printShift);
 router.post('/exam/create' , adminController.createExam);
+
+// --------------------------------
+router.route('/exam/:id')
+    .get(adminController.findExam)
+    .delete(adminController.deleteExam);
+   // .put(adminController.updateShift);
+
 //router.get('/exam/delete', adminController.deleteExam);
 //router.post('/exam/update', adminController.updateExam)
 

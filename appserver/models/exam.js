@@ -47,6 +47,45 @@ examSchema.statics.CreateNewExam = function( _id, _name){
     }))
 };
 
+
+examSchema.statics.DeleteExam = function( _id) {
+    return new Promise((resolve, reject) => {
+        this.findOneAndDelete({id:_id},function (err,result) {
+            if (err ) reject (err);
+            if ( ! result ) reject('not found');
+            resolve('success remove');
+        })
+    });
+}
+
+examSchema.statics.FindExam = function( _id) {
+    return new Promise((resolve, reject) => {
+        this.findOne({id:_id},function (err,result) {
+            if (err ) reject (err);
+            if ( ! result ) reject('not found');
+            resolve(result);
+        })
+    });
+}
+
+examSchema.statics.CreateNewExam = function( _id, _name){
+    return new Promise(((resolve, reject) => {
+        new this({
+            id: _id,
+            name :_name,
+        }).save((err)=>{
+            if ( err) reject(err);
+            resolve(message.Success);
+        })
+    }))
+};
+
+
+
+
+
+
+
 // print exam @@@@@
 examSchema.statics.PrintShifts = function ( _id ){
     return new Promise(((resolve, reject) => {

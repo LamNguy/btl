@@ -2,35 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb3f77c5-24e8-4b1e-bc6e-032a3ea5a55a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Excel/db.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Excel/update.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Excel/update2.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/appserver/config/mongoose.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/appserver/config/uploadFile.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/appserver/controller/uploadFileController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/appserver/service/uploadFileService.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/db.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/update.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uploads/update2.xlsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/config/database.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/config/database.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/adminController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/auth.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/Excel/auth.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/course.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/importAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/importAuth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/importDB.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/room.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/test.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/update.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/updateDb.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/user.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/shift.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/shift.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nhap" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Excel/.~lock.update.xlsx#" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/controller/uploadFileController.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/uploadFileController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/models/exam.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/exam.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -130,6 +105,8 @@
       <workItem from="1577349826252" duration="5612000" />
       <workItem from="1577356992264" duration="868000" />
       <workItem from="1577358958405" duration="10045000" />
+      <workItem from="1577369868616" duration="2004000" />
+      <workItem from="1577376504620" duration="963000" />
     </task>
     <servers />
   </component>

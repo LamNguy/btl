@@ -244,6 +244,26 @@ adminController.createExam = function(req ,res){
 
 };
 
+//
+adminController.deleteExam = function(req,res){
+    exam.DeleteExam(req.params.id).then(response=>{
+        res.send(response)
+    }).catch(err=>{
+        res.send(err);
+    })
+};
+
+
+adminController.findExam = function(req,res){
+    exam.FindExam(req.params.id).then(response=>{
+        res.send(response)
+    }).catch(err=>{
+        res.send(err);
+    })
+};
+
+
+
 //list
 adminController.printShift = function(req,res) {
     exam.PrintShifts(req.body.id).then(response=>{
