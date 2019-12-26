@@ -4,17 +4,6 @@
     <list default="true" id="fb3f77c5-24e8-4b1e-bc6e-032a3ea5a55a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appserver/controller/adminController.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/adminController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/course.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/course.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/exam.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/exam.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/room.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/room.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/shift.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/shift.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +93,9 @@
       <workItem from="1577035320814" duration="3082000" />
       <workItem from="1577039029372" duration="2144000" />
       <workItem from="1577098358035" duration="23393000" />
-      <workItem from="1577150029637" duration="10588000" />
+      <workItem from="1577150029637" duration="17339000" />
+      <workItem from="1577271354374" duration="871000" />
+      <workItem from="1577330974996" duration="1292000" />
     </task>
     <servers />
   </component>

@@ -234,11 +234,12 @@ adminController.pushShift2Exam = function(req,res){
 
 //create
 adminController.createExam = function(req ,res){
-    exam.CreateNewExam(req.body.id,req.body.name,function (err,data) {
-        if (err)  console.log(err);
-        else res.send(data);
-        console.log(data);
+    exam.CreateNewExam(req.body.id,req.body.name).then(response=>{
+        res.send(response);
+    }).catch(err=>{
+        res.send(err);
     })
+
 };
 
 //list
