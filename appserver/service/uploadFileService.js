@@ -66,20 +66,22 @@ uploadFileService.updateStudentQualified = function(filename){
             let db = read.utils.sheet_to_json(database.Sheets[sheet]);
             let splits =  sheet.split(" ");
             console.log(splits);
-            async.each(db,e=>{
-                user.findOneAndUpdate({id: e.id}, {
-                    $push: {
-                        subject: {
-                            idCourse: splits[0],
-                            status: splits[1]
+            course.findOne({id:splits[0]}).then(response=>{
+                async.each(db,e=>{
+                    user.findOneAndUpdate({id: e.id}, {
+                        $push: {
+                            subject: {
+                                idCourse: response._id,
+                                status: splits[1]
+                            }
                         }
-                    }
-                }, {new: true,}, function (err, result) {
-                    if (err) reject(err);
-                    if (!result) reject('not found');
+                    }, {new: true,}, function (err, result) {
+                        if (err) reject(err);
+                        if (!result) reject('not found');
 
-                    resolve('success update');
+                        resolve('success update');
 
+                    })
                 })
             })
         });
@@ -96,20 +98,22 @@ uploadFileService.updateStudentUnQualified = function(filename){
             let splits =  sheet.split(" ");
             //console.log(splits);
 
-            async.each(db,e=>{
-                console.log(e);
-                user.findOneAndUpdate({id: e.id,"subject.idCourse":splits[0]}, {
-                    $set: {
-                        // idCourse: splits[0],
-                        "subject.$.status": splits[1]
-                    }
-                }, {new: true}, function (err, result) {
-                    if (err) reject(err);
-                    
-                    resolve('success');
+            course.findOne({id:splits[0]}).then(response=>{
+                async.each(db,e=>{
+                    console.log(e);
+                    user.findOneAndUpdate({id: e.id,"subject.idCourse":response._id}, {
+                        $set: {
 
-                })
-            });
+                            "subject.$.status": splits[1]
+                        }
+                    }, {new: true}, function (err, result) {
+                        if (err) reject(err);
+
+                        resolve('success');
+
+                    })
+                });
+            })
         });
 
     })
