@@ -102,8 +102,9 @@ router.route('/exam/:id')
 
 
 router.post('/import',uploadFileConfig.single('import'),uploadController.importDb);
-router.post('/update',uploadFileConfig.single('update'),uploadController.updateStudentQualified);
-router.post('/update2',uploadFileConfig.single('update2'),uploadController.updateStudentUnQualified);
+router.post('/updateQ',uploadFileConfig.single('updateQ'),uploadController.updateStudentQualified);
+router.post('/updateUQ',uploadFileConfig.single('updateUQ'),uploadController.updateStudentUnQualified);
+router.post('/updateAuth', uploadFileConfig.single('updateAuth'), uploadController.updateAuth)
 
 
 module.exports = router ;

@@ -31,8 +31,15 @@ uploadFileController.updateStudentUnQualified = function(req,res){
    }).catch(err=>{
        res.send(err);
    })
+}
 
-
+uploadFileController.updateAuth = (req, res) => {
+  service.updateAuth(req.file.filename)
+    .then(response => {
+      res.send(response);
+    }).catch(err => {
+      res.send(err);
+    })
 }
 
 

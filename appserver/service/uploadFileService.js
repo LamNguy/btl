@@ -2,7 +2,7 @@
  *  TODO : upload excel,csv file service
  */
 
-
+const bcrypt = require('bcryptjs')
 const user = require('../models/user');
 const course = require('../models/course');
 const room = require('../models/room');
@@ -10,6 +10,7 @@ const room = require('../models/room');
 const read = require('xlsx');
 require('../config/mongoose') ;
 let async = require('async');
+const auth = require('../models/authentication')
 
 
 const uploadFileService = {};
@@ -116,4 +117,26 @@ uploadFileService.updateStudentUnQualified = function(filename){
     })
 };
 
+
+uploadFileService.updateAuth = (filename) => {
+  return new Promise((resolve, reject) => {
+
+        let database = read.readFile('./uploads/'+ filename);
+        // get list of sheet name [ user, course , room ]
+        let data = read.utils.sheet_to_json(database.Sheets['auth']);
+
+        for (var i = 0; i < data.length; i++){
+          data[i].password = bcrypt.hashSync(data[i].password.toString(), 8);
+        }
+
+        auth.insertMany(data,function (err) {
+          if (err) console.log(err);
+          else console.log('auth imported !')
+          resolve('success');
+        })
+
+
+
+  })
+}
 module.exports = uploadFileService;
