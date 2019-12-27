@@ -48,11 +48,13 @@ uploadFileService.importDB = function(filename){
                     });
                     break ;
                 }
-                default:    console.log('db not exist collection :' + sheet);
+                default:    reject({message: "wrong file imported",
+                              success: false});
             }
         });
 
-        resolve('import complete');
+        resolve({message: "import completed",
+                      success: true});
     })
 };
 
@@ -76,14 +78,21 @@ uploadFileService.updateStudentQualified = function(filename){
                             }
                         }
                     }, {new: true,}, function (err, result) {
-                        if (err) reject(err);
-                        if (!result) reject('not found');
+                        if (err) reject({message: "imported failed",
+                                      success: false});
+                        if (!result) reject({message: "imported failed",
+                                      success: false});
 
-                        resolve('success update');
+                        resolve({message: "update completed",
+                                      success: true});
 
                     })
                 })
             })
+              .catch(err => {
+                reject({message: "imported failed",
+                              success: false});
+              })
         });
     });
 };
@@ -109,11 +118,16 @@ uploadFileService.updateStudentUnQualified = function(filename){
                     }, {new: true}, function (err, result) {
                         if (err) reject(err);
 
-                        resolve('success');
+                        resolve({message: "update completed",
+                                      success: true});
 
                     })
                 });
             })
+              .catch(err => {
+                reject({message: "imported failed",
+                              success: false});
+              })
         });
 
     })
@@ -132,9 +146,12 @@ uploadFileService.updateAuth = (filename) => {
         }
 
         auth.insertMany(data,function (err) {
-          if (err) console.log(err);
+          if (err)
+            reject({message: "imported failed",
+                        success: false});
           else console.log('auth imported !')
-          resolve('success');
+          resolve({message: "update completed",
+                        success: true});
         })
 
 
