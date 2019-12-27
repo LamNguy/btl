@@ -90,7 +90,7 @@ router.get('/exam', function (req, res, next) {
 });
 
 router.get('/exam/addShift',adminController.pushShift2Exam);
-router.get('/exam/list',adminController.printShift);
+router.get('/exam/list',adminController.listExam);
 router.post('/exam/create' , adminController.createExam);
 
 // --------------------------------

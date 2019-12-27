@@ -117,8 +117,11 @@ examSchema.statics.PrintShifts = function ( _id ){
 };
 
 // list
-examSchema.statics.listExam = function ( _id ){
+examSchema.statics.listExam = function (){
     return new Promise(((resolve, reject) => {
+
+
+
         this.find({})
             .populate([{
                 path: 'shift',
@@ -127,7 +130,10 @@ examSchema.statics.listExam = function ( _id ){
                 }
             }])
             .then(data=>{
+
                 resolve(data);
+                
+
             }).catch(err=>{
             reject(err);
         })
