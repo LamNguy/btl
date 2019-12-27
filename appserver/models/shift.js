@@ -87,7 +87,11 @@ shiftSchema.statics.FindShift = function(_id){
 // list
 shiftSchema.statics.ListShift = function(){
     return new Promise(((resolve, reject) => {
-        this.find({}).then(shifts=>{
+        this.find({})
+            .populate({
+                path: "room course"
+            })
+            .then(shifts=>{
             resolve(shifts);
         }).catch(err=>{
             reject(err);

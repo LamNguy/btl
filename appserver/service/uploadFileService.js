@@ -94,20 +94,18 @@ uploadFileService.updateStudentUnQualified = function(filename){
         async.each(database.SheetNames,sheet=>{
             let db = read.utils.sheet_to_json(database.Sheets[sheet]);
             let splits =  sheet.split(" ");
+            //console.log(splits);
 
             async.each(db,e=>{
+                console.log(e);
                 user.findOneAndUpdate({id: e.id,"subject.idCourse":splits[0]}, {
                     $set: {
-
                         // idCourse: splits[0],
                         "subject.$.status": splits[1]
-
                     }
                 }, {new: true}, function (err, result) {
                     if (err) reject(err);
-
-                    if ( ! result ) reject('not found');
-
+                    
                     resolve('success');
 
                 })
