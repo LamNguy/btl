@@ -1,4 +1,3 @@
-//var Promise = require('bluebird');
 let mongoose = require('mongoose');
 let arrayUniquePlugin = require('mongoose-unique-array');
 let uniqueValidator = require('mongoose-unique-validator');
@@ -9,6 +8,10 @@ let async = require('async');
 const exam = require('../models/exam');
 const room = require("../models/room");
 const Schema = mongoose.Schema;
+
+/*
+ *  TODO: Define user schema
+ */
 
 let userSchema = new Schema ( {
     id: {
@@ -37,8 +40,6 @@ let userSchema = new Schema ( {
         validate: [_validator.validateEmail, message.invalidEmail],
         index :true
     },
-
-
 
     enroll:{
 
@@ -92,14 +93,11 @@ let userSchema = new Schema ( {
 userSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
 userSchema.plugin(arrayUniquePlugin,{message:"Duplicated element in  arrays"});
 
-
-
 /*
- *      Service model
+ *  TODO: Define user schema methods
  */
 
-
-// create user
+// create
 userSchema.statics.CreateNewUser = function ( _id, _name , _email){
     return new Promise((resolve ,reject)=>{
 
@@ -117,7 +115,7 @@ userSchema.statics.CreateNewUser = function ( _id, _name , _email){
     });
 };
 
-// list user
+// list
 userSchema.statics.ListUser = function(){
     return new Promise((resolve,reject)=>{
         this.find({}).exec((err,users)=>{
@@ -130,7 +128,7 @@ userSchema.statics.ListUser = function(){
     })
 };
 
-// find user
+// find
 userSchema.statics.FindUserByID = function(_id){
 
     return new Promise((resolve,reject)=>{
@@ -146,7 +144,7 @@ userSchema.statics.FindUserByID = function(_id){
 
 };
 
-// @@@@update user
+// @@@@update
 userSchema.statics.UpdateUser = function(request){
 
     return new Promise((resolve ,reject)=>{
@@ -162,7 +160,7 @@ userSchema.statics.UpdateUser = function(request){
     })
 };
 
-// delete user
+// delete
 userSchema.statics.RemoveUser = function(_id){
     return new Promise((resolve ,reject)=>{
         this.findOneAndDelete({id:_id},function (err,user) {
@@ -175,7 +173,7 @@ userSchema.statics.RemoveUser = function(_id){
     })
 };
 
-// student print enrollment @@@@
+// print enrollment @@@@
 userSchema.statics.PrintEnrollment = function(_idUser){
 
     return new Promise((resolve ,reject)=>{
@@ -229,7 +227,7 @@ userSchema.statics.PrintEnrollment = function(_idUser){
 
 };
 
-// student enroll @@@@
+// enroll @@@@
 userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom, _idCourse ) {
 
     return new Promise(((resolve, reject) => {
@@ -293,7 +291,7 @@ userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom, _id
 
 };
 
-// student unroll @@@@
+// un-enroll @@@@
 userSchema.statics.UnEnroll = function ( _idUser, _idExam ,_idShift ,_idRoom){
     return new Promise(((resolve, reject) => {
         const otp = { runValidators: true,context : 'query',new:true};
@@ -317,14 +315,15 @@ userSchema.statics.UnEnroll = function ( _idUser, _idExam ,_idShift ,_idRoom){
     }))
 };
 
+// todo: check course is qualified ?
 userSchema.methods.checkCourse =  function(_idCourse ,data){
 
-    for  ( let i in data){
-        if ( data[i].idCourse === _idCourse && data[i].status === 'Qualified') return true;
+    for  ( let i in data) {
+        if (data[i].idCourse === _idCourse && data[i].status === 'Qualified') return true;
     }
-
     return false ;
-}
+};
+
 
 const user = mongoose.model('User', userSchema);
 module.exports = user;

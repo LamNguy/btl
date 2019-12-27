@@ -1,10 +1,15 @@
-let  mongoose = require('mongoose');
 let uniqueValidator = require('mongoose-unique-validator');
 let arrayUniquePlugin = require('mongoose-unique-array');
-
+let message = require('../config/message');
 //const shift = require('../models/shift');
-const message = require('../config/message');
+const  mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
+
+
+/*
+ *  TODO: Define room schema
+ */
+
 let  roomSchema = new Schema({
     idRoom : {
         type: String ,
@@ -49,7 +54,13 @@ roomSchema.plugin(arrayUniquePlugin,{message:"Duplicated  array"});
 roomSchema.plugin(uniqueValidator,{message:'Duplicated !!!'});
 
 
-// list room
+
+/*
+ *  TODO: Define room schema methods
+ */
+
+
+// list
 roomSchema.statics.ListRoom = function(){
     return new  Promise((resolve ,reject)=>{
         this.find({}).then(rooms=>{
@@ -61,7 +72,7 @@ roomSchema.statics.ListRoom = function(){
     })
 };
 
-// create room
+// create
 roomSchema.statics.CreateNewRoom = function ( _id, _name , _slots , _status ){
 
     return new  Promise((resolve ,reject)=>{
@@ -80,7 +91,7 @@ roomSchema.statics.CreateNewRoom = function ( _id, _name , _slots , _status ){
     })
 };
 
-// update course @@@@
+// update  @@@@
 roomSchema.statics.UpdateRoom = function(update){
     return new  Promise((resolve ,reject)=>{
         const otp = { runValidators: true,context : 'query',new:true};
@@ -95,7 +106,7 @@ roomSchema.statics.UpdateRoom = function(update){
     })
 };
 
-// delete room
+// delete
 roomSchema.statics.RemoveRoom = function(_id){
     return new Promise(((resolve, reject) => {
         this.findOneAndDelete({idRoom:_id},function (err,room) {
@@ -107,7 +118,7 @@ roomSchema.statics.RemoveRoom = function(_id){
     }))
 };
 
-// find room
+// find
 roomSchema.statics.FindRoomByID = function(_id){
     return new  Promise(((resolve, reject) => {
         this.findOne({idRoom:_id}, function (err, room) {

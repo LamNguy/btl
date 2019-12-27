@@ -1,16 +1,19 @@
-let  mongoose = require('mongoose');
+let async = require('async');
 let uniqueValidator = require('mongoose-unique-validator');
 let arrayUniquePlugin = require('mongoose-unique-array');
 let validator = require('../validator/validatetor');
 let message = require('../config/message');
 const exam = require('../models/exam');
 //const room = require('../models/room');
+const mongoose = require('mongoose');
 const course = require('../models/course');
 const room = require('../models/room');
-let async = require('async');
+const Schema = mongoose.Schema ;
 
-const  Schema = mongoose.Schema ;
 
+/*
+ *  TODO: Define shift schema
+ */
 
 
 let shiftSchema = new Schema({
@@ -64,7 +67,12 @@ let shiftSchema = new Schema({
 shiftSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
 shiftSchema.plugin(arrayUniquePlugin,{message:"Duplicated element in  arrays"});
 
-// find shift
+
+/*
+ *  TODO: Define shift schema methods
+ */
+
+// find
 shiftSchema.statics.FindShift = function(_id){
     return new Promise(((resolve, reject) => {
         this.find({id:_id}).exec(function (err,shift) {
@@ -76,7 +84,7 @@ shiftSchema.statics.FindShift = function(_id){
     }))
 };
 
-// list shift
+// list
 shiftSchema.statics.ListShift = function(){
     return new Promise(((resolve, reject) => {
         this.find({}).then(shifts=>{
@@ -87,7 +95,7 @@ shiftSchema.statics.ListShift = function(){
     }))
 };
 
-// create shift
+// create
 shiftSchema.statics.CreateShift = function(data) {
 
     return new Promise(((resolve, reject) => {
@@ -160,7 +168,7 @@ shiftSchema.statics.CreateShift = function(data) {
     }))
 };
 
-// delete shift
+// delete
 shiftSchema.statics.RemoveShift = function (_id){
     return new Promise((resolve, reject) => {
         this.findOneAndDelete({id:_id},function (err,shift) {
@@ -171,10 +179,9 @@ shiftSchema.statics.RemoveShift = function (_id){
     })
 };
 
-// update shift
+// update
 
-
-// push shifts to exam
+// push2exam
 shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam){
     return new Promise (((resolve, reject) => {
 
@@ -193,6 +200,7 @@ shiftSchema.statics.PushShift2Exam = function(_idShift, _idExam){
         })
     }))
 };
+
 /*
 // push shifts to exam  // co dc dung lai
 shiftSchema.statics.PullShift2Exam = function(_idShift, _idExam){
@@ -216,4 +224,5 @@ shiftSchema.statics.PullShift2Exam = function(_idShift, _idExam){
 */
 
 const shift = mongoose.model('Shift', shiftSchema);
+
 module.exports= shift ;

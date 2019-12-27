@@ -1,4 +1,8 @@
-const urlExcel = './auth.xlsx' ;
+/*
+ *  TODO: Import users's authentication
+ */
+
+
 const auth = require('../models/authentication.js');
 const reader = require('xlsx');
 const cfg =  require('../config/database');
@@ -7,10 +11,10 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose') ;
 
 const importAccount = {};
-  const connection = mongoose.connect( cfg.mongoURI , cfg.mongoCFG)
-    .then(() => {
+  mongoose.connect( cfg.mongoURI , cfg.mongoCFG)
+    .then(result => {
       console.log('mongodb connected!...');
-      let database = reader.readFile(urlExcel);
+      let database = reader.readFile('./auth.xlsx');
       console.log(database.SheetNames);
       // get list of sheet name [ user, course , room ]
       let data = reader.utils.sheet_to_json(database.Sheets['auth']);
@@ -19,7 +23,7 @@ const importAccount = {};
         data[i].password = bcrypt.hashSync(data[i].password.toString(), 8);
 
       auth.insertMany(data,function (err) {
-        if (err) console.log(err)
+        if (err) console.log(err);
         else console.log('auth imported !')
       });
     })

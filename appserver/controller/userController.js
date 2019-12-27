@@ -1,7 +1,13 @@
+/*
+ *  TODO: Student controller activities
+ */
+
 const  user = require('../models/user');
 const exam = require('../models/exam');
 const userController = {} ;
 
+
+// todo: list exam
 userController.listExam = function (req, res) {
     exam.PrintSchedules(req.body.id).then(response=>{
         res.send(response);
@@ -10,6 +16,7 @@ userController.listExam = function (req, res) {
     })
 };
 
+// todo: enroll exam
 userController.enrollExam = function (req, res) {
     let _idUser = req.body.idUser ;
     let _idExam = req.body.idExam ;
@@ -23,6 +30,7 @@ userController.enrollExam = function (req, res) {
     })
 };
 
+// todo: print enrollment
 userController.printEnrollment = function (req,  res) {
 
     user.PrintEnrollment(req.body.id).then(response=>{
@@ -35,6 +43,7 @@ userController.printEnrollment = function (req,  res) {
 
 };
 
+// todo: undo enrollment
 userController.unEnrollment = function(req,res){
     let _idUser = req.body.idUser ;
     let _idExam = req.body.idExam ;
@@ -48,7 +57,6 @@ userController.unEnrollment = function(req,res){
         res.send(err);
     })
 };
-
 
 module.exports = userController ;
 

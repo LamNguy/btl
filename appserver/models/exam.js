@@ -1,8 +1,13 @@
 let arrayUniquePlugin = require('mongoose-unique-array');
 let uniqueValidator = require('mongoose-unique-validator');
+let message = require('../config/message');
 const  mongoose = require('mongoose');
 const  Schema = mongoose.Schema ;
-const  message = require('../config/message');
+
+
+/*
+ *  TODO: Define exam schema
+ */
 
 let  examSchema = new Schema({
     id:{
@@ -31,9 +36,6 @@ let  examSchema = new Schema({
 
 },{collection:'exam'});
 
-examSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
-examSchema.plugin(arrayUniquePlugin,{message:"Duplicated  array"});
-
 // create exam
 examSchema.statics.CreateNewExam = function( _id, _name){
     return new Promise(((resolve, reject) => {
@@ -47,7 +49,15 @@ examSchema.statics.CreateNewExam = function( _id, _name){
     }))
 };
 
+examSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
+examSchema.plugin(arrayUniquePlugin,{message:"Duplicated  array"});
 
+
+/*
+ *  TODO: Define exam schema methods
+ */
+
+// delete
 examSchema.statics.DeleteExam = function( _id) {
     return new Promise((resolve, reject) => {
         this.findOneAndDelete({id:_id},function (err,result) {
@@ -56,8 +66,9 @@ examSchema.statics.DeleteExam = function( _id) {
             resolve('success remove');
         })
     });
-}
+};
 
+// find
 examSchema.statics.FindExam = function( _id) {
     return new Promise((resolve, reject) => {
         this.findOne({id:_id},function (err,result) {
@@ -66,8 +77,9 @@ examSchema.statics.FindExam = function( _id) {
             resolve(result);
         })
     });
-}
+};
 
+// create
 examSchema.statics.CreateNewExam = function( _id, _name){
     return new Promise(((resolve, reject) => {
         new this({
@@ -79,12 +91,6 @@ examSchema.statics.CreateNewExam = function( _id, _name){
         })
     }))
 };
-
-
-
-
-
-
 
 // print exam @@@@@
 examSchema.statics.PrintShifts = function ( _id ){

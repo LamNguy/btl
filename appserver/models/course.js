@@ -1,10 +1,14 @@
 let uniqueValidator = require('mongoose-unique-validator');
 let arrayUniquePlugin = require('mongoose-unique-array');
-let mongoose = require('mongoose');
 let validator = require('../validator/validatetor');
 //const shift = require('../models/shift');
-const message = require('../config/message');
+let message = require('../config/message');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema ;
+
+/*
+ *   TODO: Define course schema
+ */
 
 
 let courseSchema = new Schema ({
@@ -46,6 +50,13 @@ let courseSchema = new Schema ({
 
 courseSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
 courseSchema.plugin(arrayUniquePlugin,{message:"Duplicated  array"});
+
+
+
+/*
+ * TODO : Define course schema methods
+ */
+
 
 // list course
 courseSchema.statics.ListCourse = function(){
@@ -158,4 +169,5 @@ courseSchema.statics.PullCourse2Shift =  function(_idCourse, _idShift){
 */
 
 const course = mongoose.model('Course', courseSchema);
+
 module.exports =  course ;

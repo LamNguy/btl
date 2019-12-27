@@ -1,5 +1,8 @@
+/*
+ *  TODO: Define authentication schema
+ */
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs')
+//const bcrypt = require('bcryptjs')
 const Schema = mongoose.Schema;
 
 let authSchema = new Schema ( {

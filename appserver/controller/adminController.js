@@ -1,3 +1,8 @@
+/*
+ *  TODO : Admin controller activities
+ */
+
+
 const  user = require('../models/user');
 const  course = require('../models/course');
 const  exam = require('../models/exam');
@@ -8,11 +13,8 @@ const  shift = require('../models/shift');
 // creates somethings as a class including functions and exports its modules
 const adminController = {} ;
 
-
 /*
- *
- * Admin Controller
- *
+ *    todo: user
  */
 
 // list users
@@ -75,12 +77,10 @@ adminController.deleteUser = function(req, res) {
 };
 
 /*
- *
- * Course Controller
- *
+ *  todo: course
  */
 
-// show course
+// list course
 adminController.listCourse =  function (req, res) {
 
     course.ListCourse().then(response=>{
@@ -159,9 +159,8 @@ adminController.removeCourseFromShift =  function(req,res){
     })
 };
 
-
 /*
- *   Shift controller
+ *  todo: shift
  */
 
 // find shift
@@ -229,12 +228,13 @@ adminController.pushShift2Exam = function(req,res){
     })
 };
 
+// pull shift from exam ???
 
 /*
- *  Exam controller
+ *  todo: exam
  */
 
-//create
+// create exam
 adminController.createExam = function(req ,res){
     exam.CreateNewExam(req.body.id,req.body.name).then(response=>{
         res.send(response);
@@ -244,7 +244,7 @@ adminController.createExam = function(req ,res){
 
 };
 
-//
+// delete exam
 adminController.deleteExam = function(req,res){
     exam.DeleteExam(req.params.id).then(response=>{
         res.send(response)
@@ -253,7 +253,7 @@ adminController.deleteExam = function(req,res){
     })
 };
 
-
+// find exam
 adminController.findExam = function(req,res){
     exam.FindExam(req.params.id).then(response=>{
         res.send(response)
@@ -262,9 +262,7 @@ adminController.findExam = function(req,res){
     })
 };
 
-
-
-//list
+// list exam
 adminController.printShift = function(req,res) {
     exam.PrintShifts(req.body.id).then(response=>{
         res.send(response);
@@ -273,18 +271,14 @@ adminController.printShift = function(req,res) {
     })
 };
 
-// update
-
-// delete
-
-// find
+// update exam ?
 
 
 /*
- *  Room controller
+ *  todo: room
  */
 
-// show course
+// list course
 adminController.listRoom =  function (req, res) {
     room.ListRoom().then(response=>{
         res.send(response);
@@ -341,6 +335,7 @@ adminController.deleteRoom = function(req, res) {
         res.send(err);
     })
 };
+
 
 
 module.exports = adminController ;

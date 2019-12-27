@@ -1,7 +1,11 @@
+/*
+ *  TODO : Upload file controller activities
+ */
+
 const service = require('../service/uploadFileService');
 const uploadFileController = {};
 
-// import database : room , user ,
+// todo: import databases
 uploadFileController.importDb = function(req,res){
     service.importDB(req.file.filename).then(response=>{
         res.send(response);
@@ -10,6 +14,7 @@ uploadFileController.importDb = function(req,res){
     })
 };
 
+// todo: import qualified students
 uploadFileController.updateStudentQualified = function(req,res){
     service.updateStudentQualified(req.file.filename).then(response=>{
         res.send(response);
@@ -18,6 +23,7 @@ uploadFileController.updateStudentQualified = function(req,res){
     })
 };
 
+// todo import not qualified students
 uploadFileController.updateStudentUnQualified = function(req,res){
 
    service.updateStudentUnQualified(req.file.filename).then(response=>{
@@ -28,7 +34,6 @@ uploadFileController.updateStudentUnQualified = function(req,res){
 
 
 }
-
 
 
 module.exports = uploadFileController;
