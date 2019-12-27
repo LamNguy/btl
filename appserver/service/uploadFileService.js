@@ -65,20 +65,22 @@ uploadFileService.updateStudentQualified = function(filename){
             let db = read.utils.sheet_to_json(database.Sheets[sheet]);
             let splits =  sheet.split(" ");
             console.log(splits);
-            async.each(db,e=>{
-                user.findOneAndUpdate({id: e.id}, {
-                    $push: {
-                        subject: {
-                            idCourse: splits[0],
-                            status: splits[1]
+            course.findOne({id:splits[0]}).then(response=>{
+                async.each(db,e=>{
+                    user.findOneAndUpdate({id: e.id}, {
+                        $push: {
+                            subject: {
+                                idCourse: response._id,
+                                status: splits[1]
+                            }
                         }
-                    }
-                }, {new: true,}, function (err, result) {
-                    if (err) reject(err);
-                    if (!result) reject('not found');
+                    }, {new: true,}, function (err, result) {
+                        if (err) reject(err);
+                        if (!result) reject('not found');
 
-                    resolve('success update');
+                        resolve('success update');
 
+                    })
                 })
             })
         });

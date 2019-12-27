@@ -72,10 +72,14 @@ let userSchema = new Schema ({
             type:[
                 {
                     idCourse :{
-                        type : String ,
-                        required : [true,message.canNotBlank],
-                        trim : true
+                        type : Schema.Types.ObjectId
+                        ,ref :'Course',
+                        required : [true,message.canNotBlank]
                     },
+
+
+
+
 
                     status :{
                         type:String ,
@@ -98,6 +102,7 @@ userSchema.plugin(arrayUniquePlugin,{message:"Duplicated element in  arrays"});
  *  TODO: Define user schema methods
  */
 
+
 // create
 userSchema.statics.CreateNewUser = function ( _id, _name , _email){
     return new Promise((resolve ,reject)=>{
@@ -119,7 +124,11 @@ userSchema.statics.CreateNewUser = function ( _id, _name , _email){
 // list
 userSchema.statics.ListUser = function(){
     return new Promise((resolve,reject)=>{
-        this.find({}).exec((err,users)=>{
+        this.find({})
+            .populate([{
+                path : "subject.idCourse"
+            }])
+            .exec((err,users)=>{
             if (err) {
                 reject(err);
             }
@@ -133,7 +142,11 @@ userSchema.statics.ListUser = function(){
 userSchema.statics.FindUserByID = function(_id){
 
     return new Promise((resolve,reject)=>{
-        this.findOne({id:_id}).exec().then((user=>{
+        this.findOne({id:_id})
+            .populate([{
+                path : "subject.idCourse"
+            }])
+            .exec().then((user=>{
             if( ! user ){
                 reject(message.canNotFound);
             }
