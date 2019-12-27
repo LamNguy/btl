@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fb3f77c5-24e8-4b1e-bc6e-032a3ea5a55a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Excel/.~lock.db.xlsx#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/appserver/service/uploadFileService.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/service/uploadFileService.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -109,7 +107,7 @@
       <workItem from="1577376504620" duration="4422000" />
       <workItem from="1577409100571" duration="4498000" />
       <workItem from="1577434976504" duration="8120000" />
-      <workItem from="1577446950638" duration="6541000" />
+      <workItem from="1577446950638" duration="7315000" />
     </task>
     <servers />
   </component>
