@@ -103,15 +103,16 @@ shiftSchema.statics.ListShift = function(){
 shiftSchema.statics.CreateShift = function(data) {
 
     return new Promise(((resolve, reject) => {
+      console.log(data);
         new this({
             id :data._id,
             date: data._date,
-            status : data._status,
+            //status : data._status,
             timeStart: data._timeStart,
             timeDuration: data._timeDuration
         }).save()
             .then(_shift=>{
-
+                    console.log(_shift);
                     const otp = {runValidators: true, context: 'query', new: true};
                     if (data._rooms && data._rooms.length){
 
@@ -119,16 +120,17 @@ shiftSchema.statics.CreateShift = function(data) {
 
                             async.each(results,(object)=>{
 
-                                if (object.status === 'used'){
+                                if (object.status === 'not used'){
 
-                                } else {
-                                    room.updateOne({idRoom:object.idRoom},{$set:{status:"used"}},otp).then(resolve=>{
+                                    room.updateOne({idRoom:object.idRoom},{$set:{status:"used"}},otp).then(results=>{
+
                                         this.updateOne({id:_shift.id},{$push:{room:object._id}},otp).then(a=>{
 
                                         }).catch(e=>{
                                             console.log(e);
                                         })
                                     }).catch(e=>{
+                                        //reject(err);
                                         console.log(e);
                                     })
 
@@ -166,7 +168,7 @@ shiftSchema.statics.CreateShift = function(data) {
             }
 
             ).catch(err=>{
-
+                console.log(err)
                 reject (err);
             })
     }))
@@ -175,7 +177,18 @@ shiftSchema.statics.CreateShift = function(data) {
 // delete
 shiftSchema.statics.RemoveShift = function (_id){
     return new Promise((resolve, reject) => {
+      const otp = {runValidators: true, context: 'query', new: true};
         this.findOneAndDelete({id:_id},function (err,shift) {
+          async.each(shift.room , e=>{
+            room.findByIdAndUpdate({_id:e},{$set:{status:"not used" , slots : 40 }},otp).then(results=>{
+                console.log(results)
+
+            }).catch(e=>{
+                //reject(err);
+                console.log(e);
+            })
+          })
+
             if (err) reject(err);
             if (!shift) reject('can not find');
             resolve('success remove  shift');

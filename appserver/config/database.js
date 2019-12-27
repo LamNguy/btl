@@ -10,7 +10,11 @@ module.exports = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex : true,
+<<<<<<< HEAD
     // useFindAndModify: false
+=======
+    useFindAndModify: false 
+>>>>>>> 85b15a6dd2c115f034827de324f368c13e72b18d
     //ssl: true,
     //replicaSet: 'Cluster0-shard-0',
     //authSource: 'admin',

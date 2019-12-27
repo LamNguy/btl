@@ -6,7 +6,8 @@ module.exports = {
 
     canNotFound : { message : "Can not found !"},
     canNotCreate: { message : "Can not create !"},
-    Success : {message: 'success'},
+    Success : {message: 'success', success: true},
+    Fail :{message : 'error' , success:false } ,
     canNotBlank :"This field can not be blanked",
     invalidName :"Invalid: name must contain only letters,min length:5 characters,max length:30 characters ",
     invalidId   :"Invalid: id must only number,8 characters and start by 1",

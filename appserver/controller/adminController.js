@@ -295,6 +295,14 @@ adminController.printShift = function(req,res) {
     })
 };
 
+adminController.listExam= function(req,res) {
+    exam.listExam().then(response=>{
+        res.send(response);
+    }).catch(err=>{
+        res.send(err);
+    })
+};
+
 // update exam ?
 
 
