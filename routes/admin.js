@@ -89,13 +89,16 @@ router.get('/exam', function (req, res, next) {
     res.send('exam management /list /create /update /delete');
 });
 
-<<<<<<< HEAD
-router.get('/exam/addShift',adminController.pushShift2Exam);
-router.get('/exam/list',adminController.listExam);
+router.post('/exam/addShift',adminController.pushShift2Exam);
+router.get('/exam/list',adminController.printShift);
 =======
 router.post('/exam/addShift',adminController.pushShift2Exam);
 router.get('/exam/list',adminController.printShift);
->>>>>>> 947fec68c3fcacef3b718fc6e731c8245a3b4e75
+=======
+router.get('/exam/addShift',adminController.pushShift2Exam);
+router.get('/exam/list',adminController.listExam);
+>>>>>>> 85b15a6dd2c115f034827de324f368c13e72b18d
+>>>>>>> 214795433d1183d1983ff46234bfcc03e259ca92
 router.post('/exam/create' , adminController.createExam);
 
 // --------------------------------

@@ -11,10 +11,13 @@ module.exports = {
     useUnifiedTopology: true,
     useCreateIndex : true,
 <<<<<<< HEAD
-    useFindAndModify: false 
+    useFindAndModify: false
 =======
     // useFindAndModify: false
->>>>>>> 947fec68c3fcacef3b718fc6e731c8245a3b4e75
+=======
+    useFindAndModify: false
+>>>>>>> 85b15a6dd2c115f034827de324f368c13e72b18d
+>>>>>>> 214795433d1183d1983ff46234bfcc03e259ca92
     //ssl: true,
     //replicaSet: 'Cluster0-shard-0',
     //authSource: 'admin',
