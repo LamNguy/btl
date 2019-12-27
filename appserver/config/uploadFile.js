@@ -1,6 +1,10 @@
+/*
+ *   TODO : Upload file configure
+ */
+
 let multer = require('multer');
 
-
+// set destination store and name
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'uploads/')

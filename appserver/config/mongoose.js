@@ -1,12 +1,16 @@
+/*
+ *  TODO : Init mongoose connection
+ */
+
+
 let mongoose = require('mongoose') ;
-//db config
 let connections = require('../config/database');
 
 const Mongoose = mongoose.connect(connections.mongoURI, connections.mongoCFG)
-    .then(success=>{
+    .then(r=>{
         console.log('Connect to mongodb successfully')
-    }).catch(err=>{
-    console.log('Can not connect to mongodb : ');
+    }).catch(e=>{
+        console.log('Can not connect to mongodb : ');
 });
 
 

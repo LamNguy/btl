@@ -1,3 +1,7 @@
+/*
+ *  TODO : Testing message response
+ */
+
 module.exports = {
 
     canNotFound : { message : "Can not found !"},

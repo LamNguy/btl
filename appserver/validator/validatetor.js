@@ -1,3 +1,6 @@
+/*
+ *   VALIDATE
+ */
 
 const validator = {} ;
 

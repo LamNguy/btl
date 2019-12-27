@@ -3,9 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="fb3f77c5-24e8-4b1e-bc6e-032a3ea5a55a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Excel/.~lock.update.xlsx#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/controller/uploadFileController.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/controller/uploadFileController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/appserver/models/exam.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/models/exam.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/config/mongoose.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/config/mongoose.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/config/uploadFile.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/config/uploadFile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/service/uploadFileService.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/service/uploadFileService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/service/userService.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/validator/freshData.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/appserver/validator/validatetor.js" beforeDir="false" afterPath="$PROJECT_DIR$/appserver/validator/validatetor.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -106,7 +109,8 @@
       <workItem from="1577356992264" duration="868000" />
       <workItem from="1577358958405" duration="10045000" />
       <workItem from="1577369868616" duration="2004000" />
-      <workItem from="1577376504620" duration="963000" />
+      <workItem from="1577376504620" duration="4422000" />
+      <workItem from="1577409100571" duration="490000" />
     </task>
     <servers />
   </component>

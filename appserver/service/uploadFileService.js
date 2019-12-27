@@ -1,14 +1,21 @@
+/*
+ *  TODO : upload excel,csv file service
+ */
+
+
 const user = require('../models/user');
 const course = require('../models/course');
 const room = require('../models/room');
-const auth = require('../models/authentication');
+//const auth = require('../models/authentication');
 const read = require('xlsx');
 require('../config/mongoose') ;
 let async = require('async');
 
-uploadFileSerive = {};
 
-uploadFileSerive.importDB = function(filename){
+const uploadFileService = {};
+
+// todo : import database
+uploadFileService.importDB = function(filename){
     return new Promise((resolve, reject) => {
 
         let database = read.readFile('./uploads/' +filename);
@@ -40,7 +47,7 @@ uploadFileSerive.importDB = function(filename){
                     });
                     break ;
                 }
-
+                default:    console.log('db not exist collection :' + sheet);
             }
         });
 
@@ -48,8 +55,8 @@ uploadFileSerive.importDB = function(filename){
     })
 };
 
-
-uploadFileSerive.updateStudentQualified = function(filename){
+// todo : import list of students who are qualified
+uploadFileService.updateStudentQualified = function(filename){
     return new  Promise((resolve, reject) => {
         let database = read.readFile('./uploads/'+ filename);
 
@@ -63,7 +70,7 @@ uploadFileSerive.updateStudentQualified = function(filename){
                     $push: {
                         subject: {
                             idCourse: splits[0],
-                            status: splits[1],
+                            status: splits[1]
                         }
                     }
                 }, {new: true,}, function (err, result) {
@@ -76,10 +83,10 @@ uploadFileSerive.updateStudentQualified = function(filename){
             })
         });
     });
-}
+};
 
-
-uploadFileSerive.updateStudentUnQualified = function(filename){
+// todo : import list of students who are not qualified
+uploadFileService.updateStudentUnQualified = function(filename){
     return new  Promise((resolve, reject) => {
         let database = read.readFile('./uploads/'+ filename);
 
@@ -107,6 +114,6 @@ uploadFileSerive.updateStudentUnQualified = function(filename){
         });
 
     })
-}
+};
 
-module.exports = uploadFileSerive;
+module.exports = uploadFileService;
