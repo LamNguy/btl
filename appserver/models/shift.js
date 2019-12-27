@@ -122,7 +122,7 @@ shiftSchema.statics.CreateShift = function(data) {
                                 if (object.status === 'used'){
 
                                 } else {
-                                    room.updateOne({idRoom:object.id},{$set:{status:"used"}},otp).then(resolve=>{
+                                    room.updateOne({idRoom:object.idRoom},{$set:{status:"used"}},otp).then(resolve=>{
                                         this.updateOne({id:_shift.id},{$push:{room:object._id}},otp).then(a=>{
 
                                         }).catch(e=>{
