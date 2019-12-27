@@ -149,10 +149,10 @@ uploadFileService.updateAuth = (filename) => {
         }
 
         auth.insertMany(data,function (err) {
-          if (err)
+          if (err){
             reject({message: "imported failed",
                         success: false});
-          else console.log('auth imported !')
+          } else console.log('auth imported !')
           resolve({message: "update completed",
                         success: true});
         })
