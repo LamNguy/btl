@@ -69,6 +69,9 @@ uploadFileService.updateStudentQualified = function(filename){
             let splits =  sheet.split(" ");
             console.log(splits);
             course.findOne({id:splits[0]}).then(response=>{
+                if (!response)
+                  reject({message: "imported failed",
+                    success: false})
                 async.each(db,e=>{
                     user.findOneAndUpdate({id: e.id}, {
                         $push: {
@@ -80,8 +83,8 @@ uploadFileService.updateStudentQualified = function(filename){
                     }, {new: true,}, function (err, result) {
                         if (err) reject({message: "imported failed",
                                       success: false});
-                        if (!result) reject({message: "imported failed",
-                                      success: false});
+                      /*  if (!result) reject({message: "imported failed",
+                                      success: false});*/
 
                         resolve({message: "update completed",
                                       success: true});
