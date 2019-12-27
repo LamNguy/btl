@@ -29,6 +29,9 @@ router.route('/user/:id')
     .delete(adminController.deleteUser)
     .put(adminController.updateUser);
 
+router.route('/user/:id/courses')
+  .get(adminController.getUserCourses)
+
 
 /*
  *   Course management

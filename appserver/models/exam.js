@@ -29,9 +29,9 @@ let  examSchema = new Schema({
     shift	:[{
         type : Schema.Types.ObjectId ,
         ref:'Shift' ,
-        unique : true ,
-        index : true ,
-        default: undefined
+      //  unique : true ,
+    //    index : true ,
+      //  default: undefined
     }]
 
 },{collection:'exam'});
@@ -49,8 +49,8 @@ examSchema.statics.CreateNewExam = function( _id, _name){
     }))
 };
 
-examSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
-examSchema.plugin(arrayUniquePlugin,{message:"Duplicated  array"});
+//examSchema.plugin(uniqueValidator,{message:'Duplicated object !'});
+//examSchema.plugin(arrayUniquePlugin,{message:"Duplicated  array"});
 
 
 /*

@@ -76,6 +76,30 @@ adminController.deleteUser = function(req, res) {
 
 };
 
+adminController.getUserCourses = (req, res) => {
+  user.FindUserByID(req.params.id)
+    .then(response => {
+        var courses;
+        console.log(response.subject.length);
+        for (var i = 0; i < response.subject.length; i++){
+          console.log(i);
+          var data = {
+            idCourses: response.subject[i].idCourse,
+            status: response.subject[i].status
+          }
+          courses.push(data)
+
+        }
+        res.send(courses)
+      })
+    .catch(err=>{
+        res.send(err);
+    })
+  };
+
+
+
+
 /*
  *  todo: course
  */
