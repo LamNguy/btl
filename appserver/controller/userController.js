@@ -18,12 +18,14 @@ userController.listExam = function (req, res) {
 
 // todo: enroll exam
 userController.enrollExam = function (req, res) {
-    let _idUser = req.body.idUser ;
-    let _idExam = req.body.idExam ;
-    let _idShift = req.body.idShift ;
-    let _idRoom = req.body.idRoom ;
-   // let _idCourse = req.body.idCourse ;
-    user.Enroll(_idUser , _idExam,_idShift,_idRoom).then(response=>{
+    const request = {};
+    request.idUser = req.body.idUser ;
+    request.idExam = req.body.idExam ;
+    request.idShift = req.body.idShift ;
+    request.idRoom = req.body.idRoom ;
+    request.idCourse = req.body.idCourse;
+
+    user.Enroll( request ).then(response=>{
         res.send(response);
     }).catch(err=>{
         res.send(err);

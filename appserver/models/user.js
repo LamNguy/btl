@@ -13,7 +13,8 @@ const Schema = mongoose.Schema;
  *  TODO: Define user schema
  */
 
-let userSchema = new Schema ( {
+let userSchema = new Schema ({
+
     id: {
         type :String,
         required : [true,message.canNotBlank],
@@ -144,7 +145,7 @@ userSchema.statics.FindUserByID = function(_id){
 
 };
 
-// @@@@update
+// update @@
 userSchema.statics.UpdateUser = function(request){
 
     return new Promise((resolve ,reject)=>{
@@ -173,7 +174,7 @@ userSchema.statics.RemoveUser = function(_id){
     })
 };
 
-// print enrollment @@@@
+// print enrollment @@
 userSchema.statics.PrintEnrollment = function(_idUser){
 
     return new Promise((resolve ,reject)=>{
@@ -227,55 +228,60 @@ userSchema.statics.PrintEnrollment = function(_idUser){
 
 };
 
-// enroll @@@@
-userSchema.statics.Enroll = function (_idUser, _idExam , _idShift , _idRoom, _idCourse ) {
+// enroll @@
+userSchema.statics.Enroll = function ( request  ) {
 
     return new Promise(((resolve, reject) => {
-        this.findOne({id:_idUser}).then((user)=>{
-
-
+        this.findOne({id:request.idUser}).then((user)=>{
+            //console.log(request.idUser);
 
             if (!user) reject ({message:'can not find user'});
-
-
-            if ( ! user.checkCourse(_idCourse,user.subject)){
+            if ( ! user.checkCourse(request.idCourse,user.subject)){
                 reject({message : 'user can not enroll'})
             } else {
-                exam.findOne({id:_idExam})
+
+                exam.findOne({id:request.idExam})
                     .populate({
                         path : "shift",
-                        match : [{
-                            "id" : _idShift
-                        }],
+                        select : {
+                            "id" : request.idShift
+                        },
 
-                        populate: {
-                            path :"room",
-                            match : [{
-                                "idRoom" : _idRoom
-                            }],
-
+                        populate:{
+                            path : "room",
+                            select : {
+                                "idRoom" : request.idRoom
+                            },
                         }
-
-
                     })
                     .then((data)=>{
-                        console.log(data);
-                        if(_idRoom === data.shift[0].room[0].idRoom){
+                        //console.log(data);
+                        if(request.idRoom === data.shift[0].room[0].idRoom){
 
                             const otp = { runValidators: true,new:true};
-                            room.updateOne({idRoom:_idRoom},{$push:{users:user._id},$inc:{slots:-1}},otp,err=>{
+
+                            room.updateOne({idRoom:request.idRoom},{$addToSet:{users:user._id},$inc:{slots:-1}},otp,err=>{
 
                                 if (err) reject(err);
-
-                                this.updateOne( {id:_idUser},{$push:{enroll:{
-                                                idExam:_idExam,
-                                                idShift :_idShift,
-                                                idRoom :_idRoom
+                                // todo : how add unique
+                                this.updateOne( {id:request.idUser},{$addToSet:{enroll:{
+                                                idExam:request.idExam,
+                                                idShift :request.idShift,
+                                                idRoom :request.idRoom
                                             }}}
                                     ,{new :true},function (err) {
                                         if (err) reject (err);
                                         resolve(message.Success);
-                                    });
+                                });
+                                /*
+                                this.aggregate([
+                                    { "$unwind" : "$stats" },
+                                    { "$group" : { "id" : "$id", "stats" : { "$addToSet" : "$stats" } } }, // use $first to add in other document fields here
+                                    { "$out" : "some_other_collection_name" }
+                                ]) */
+
+
+
                             });}
 
                     }).catch(err=>{

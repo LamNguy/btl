@@ -71,10 +71,16 @@ examSchema.statics.DeleteExam = function( _id) {
 // find
 examSchema.statics.FindExam = function( _id) {
     return new Promise((resolve, reject) => {
-        this.findOne({id:_id},function (err,result) {
-            if (err ) reject (err);
-            if ( ! result ) reject('not found');
-            resolve(result);
+        this.findOne({id:_id})
+            .populate([{
+                path : "shift",
+                populate:{
+                    path:  "room course"
+                }
+            }]).exec().then(response=>{
+                resolve(response);
+        }).catch(err=>{
+            reject(err);
         })
     });
 };
@@ -92,22 +98,38 @@ examSchema.statics.CreateNewExam = function( _id, _name){
     }))
 };
 
-// print exam @@@@@
+// todo : list shift to user or exam to user ?
 examSchema.statics.PrintShifts = function ( _id ){
     return new Promise(((resolve, reject) => {
         this.find({})
-            .populate({
+            .populate([{
                 path: 'shift',
-                populate: [{
-                    path : 'room'
-                }, {
-                    path : 'course'
-                }]
-            })
+                populate: {
+                    path : 'room course'
+                }
+            }])
             .then(data=>{
                 resolve(data);
             }).catch(err=>{
                 reject(err);
+        })
+    }))
+};
+
+// list
+examSchema.statics.listExam = function ( _id ){
+    return new Promise(((resolve, reject) => {
+        this.find({})
+            .populate([{
+                path: 'shift',
+                populate: {
+                    path : 'room course'
+                }
+            }])
+            .then(data=>{
+                resolve(data);
+            }).catch(err=>{
+            reject(err);
         })
     }))
 };
