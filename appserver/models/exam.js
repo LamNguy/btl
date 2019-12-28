@@ -60,13 +60,25 @@ examSchema.statics.CreateNewExam = function( _id, _name){
 // delete
 examSchema.statics.DeleteExam = function( _id) {
     return new Promise((resolve, reject) => {
-        this.findOneAndDelete({id:_id},function (err,result) {
-            if (err ) reject (err);
-            if ( ! result ) reject('not found');
-            resolve('success remove');
+        this.findOneAndDelete({id:_id})
+        .populate({
+          path: "shift"
         })
-    });
-};
+        .then(result=>{
+          if ( ! result ) reject(message.Fail);
+          /*
+          console.log(result.shift)
+          async.each(result.shift,e=>{
+            console.log(e)
+            shift.RemoveShift(e.id)
+          }) */
+          resolve(result);
+
+        }).catch(e=>{
+            message.Fail
+        })
+});
+}
 
 // find
 examSchema.statics.FindExam = function( _id) {
