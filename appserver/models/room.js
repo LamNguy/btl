@@ -128,7 +128,12 @@ roomSchema.statics.FindRoomByID = function(_id){
             if ( ! room ) reject(message.canNotFound);
 
             resolve(room);
-        })
+        }).populate([{
+            path : "users",
+            /*populate:{
+                path:  "room course"
+            }*/
+        }])
     }))
 };
 

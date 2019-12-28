@@ -246,68 +246,38 @@ userSchema.statics.PrintEnrollment = function(_idUser){
 userSchema.statics.Enroll = function ( request  ) {
 
     return new Promise(((resolve, reject) => {
-        this.findOne({id:request.idUser}).then((user)=>{
+        this.findOne({id:request.idUser})
+            .populate([{
+              path: "subject.idCourse"
+            }])
+            .then(result=>{
+                if (! result ) reject ({message:'can not find user'});
+               console.log(result.checkCourse(request.idCourse,result.subject))
+                if( ! result.checkCourse(request.idCourse,result.subject)){
+                    reject(message.Fail)
+                }else {
+                    const otp = { runValidators: true,new:true};
+                    room.updateOne({idRoom:request.idRoom},{$addToSet:{users:result._id},$inc:{slots:-1}},otp,err=>{
+                              console.log(result._id)
+                              if (err) reject(err);
+                              // todo : how add unique
+                              this.updateOne( {id:request.idUser},{$addToSet:{enroll:{
+                                              idExam:request.idExam,
+                                              idShift :request.idShift,
+                                              idRoom :request.idRoom
+                                          }}}
+                                  ,{new :true},function (err) {
+                                      if (err) reject (err);
+                                      resolve(message.Success);
+                              });
+                      })
+                }
+
+            })
+            //  console.log(user)
             //console.log(request.idUser);
-
-            if (!user) reject ({message:'can not find user'});
-            if ( ! user.checkCourse(request.idCourse,user.subject)){
-                reject({message : 'user can not enroll'})
-            } else {
-
-                exam.findOne({id:request.idExam})
-                    .populate({
-                        path : "shift",
-                        select : {
-                            "id" : request.idShift
-                        },
-
-                        populate:{
-                            path : "room",
-                            select : {
-                                "idRoom" : request.idRoom
-                            },
-                        }
-                    })
-                    .then((data)=>{
-                        //console.log(data);
-                        if(request.idRoom === data.shift[0].room[0].idRoom){
-
-                            const otp = { runValidators: true,new:true};
-
-                            room.updateOne({idRoom:request.idRoom},{$addToSet:{users:user._id},$inc:{slots:-1}},otp,err=>{
-
-                                if (err) reject(err);
-                                // todo : how add unique
-                                this.updateOne( {id:request.idUser},{$addToSet:{enroll:{
-                                                idExam:request.idExam,
-                                                idShift :request.idShift,
-                                                idRoom :request.idRoom
-                                            }}}
-                                    ,{new :true},function (err) {
-                                        if (err) reject (err);
-                                        resolve(message.Success);
-                                });
-                                /*
-                                this.aggregate([
-                                    { "$unwind" : "$stats" },
-                                    { "$group" : { "id" : "$id", "stats" : { "$addToSet" : "$stats" } } }, // use $first to add in other document fields here
-                                    { "$out" : "some_other_collection_name" }
-                                ]) */
-
-
-
-                            });}
-
-                    }).catch(err=>{
-                    reject(err);
-                })
-            }
-
-
-
-
-        })
-    }))
+            //user.checkCourse(request.idCourse,user.subject
+      }))
 
 };
 
@@ -323,7 +293,7 @@ userSchema.statics.UnEnroll = function ( _idUser, _idExam ,_idShift ,_idRoom){
 
                 if (!user) reject('can not find user');
 
-                room.updateOne({idRoom :_idRoom},{$pull:{users:user._id},$inc:{slots:1}},otp,function (err) {
+                room.updateOne({idRoom :_idRoom},{ $pull: {users: {$in: [user._id]}},$inc:{slots:1}},otp,function (err) {
                     if (err) reject(err);
 
                     resolve('success  un-enroll')
@@ -335,11 +305,12 @@ userSchema.statics.UnEnroll = function ( _idUser, _idExam ,_idShift ,_idRoom){
     }))
 };
 
+const course = require("../models/course");
 // todo: check course is qualified ?
 userSchema.methods.checkCourse =  function(_idCourse ,data){
 
     for  ( let i in data) {
-        if (data[i].idCourse === _idCourse && data[i].status === 'Qualified') return true;
+        if (data[i].idCourse.id == _idCourse && data[i].status === 'Qualified') return true;
     }
     return false ;
 };

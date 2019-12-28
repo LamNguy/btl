@@ -75,7 +75,11 @@ shiftSchema.plugin(arrayUniquePlugin,{message:"Duplicated element in  arrays"});
 // find
 shiftSchema.statics.FindShift = function(_id){
     return new Promise(((resolve, reject) => {
-        this.find({id:_id}).exec(function (err,shift) {
+        this.find({id:_id})
+        .populate({
+          path: "room course"
+        })
+        .exec(function (err,shift) {
             if (err) reject(err);
             if (!shift) reject('can not find');
 
@@ -83,6 +87,11 @@ shiftSchema.statics.FindShift = function(_id){
         })
     }))
 };
+
+
+shiftSchema.statics.filterbyCOurse = function(id){
+//  return new Promise((resolve,))
+}
 
 // list
 shiftSchema.statics.ListShift = function(){
@@ -124,7 +133,7 @@ shiftSchema.statics.CreateShift = function(data) {
 
                                     room.updateOne({idRoom:object.idRoom},{$set:{status:"used"}},otp).then(results=>{
 
-                               
+
                                         this.updateOne({id:_shift.id},{$push:{room:object._id}},otp).then(a=>{
 
                                         }).catch(e=>{

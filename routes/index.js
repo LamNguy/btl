@@ -6,7 +6,7 @@ const session = require('express-session');
 const User = require('../appserver/models/authentication')
 const jwt = require('jsonwebtoken')
 const authController = require('../appserver/controller/authController')
-
+const adminRouter = require('./admin')
 /*
 const redirectLogin = (req, res, next) => {
   if (!req.session.userId) {

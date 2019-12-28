@@ -13,6 +13,7 @@ require('../config/passport')(passport);
 
 exports.signIn = (req, res) => {
     const user = req.user;
+    //sign a token
     jwt.sign({user: user}, 'secretkey', {expiresIn: '7200s'}, (err, token) => {
       res.json({
         token,
@@ -23,64 +24,33 @@ exports.signIn = (req, res) => {
     })
   }
 
-exports.checkAdminToken = (req, res) => {
-  /*jwt.verify(req.token, 'secretkey',  (err, authData) => {
-    if(err || authData.user.level !== 'admin') {
-      res.sendStatus(403);
-    } else {
-      res.json({
-        authData,
-        message: 'logged as admin successfully',
-        success: true
-      })
-    }
-  })*/
-
-
-
-//Synchronously
-  try {
-    const decode = jwt.verify(req.token, 'secretkey')
-      if(decode.user.level === 'admin')
-        res.json({token: req.token,
-                  authData: decode,
-                  message: 'logged as admin successfully',
-                  success: true
-        });
-      else res.sendStatus(403);
-  } catch(err) {
-    res.sendStatus(403)
-  }
+exports.checkAdminToken = (req, res, next) => {
+    //Synchronously
+      try {
+        //verify token for admin
+        const decode = jwt.verify(req.token, 'secretkey')
+          if(decode.user.level === 'admin')
+            next();
+          else res.sendStatus(403);
+      } catch(err) {
+        res.sendStatus(403)
+      }
 }
 
-exports.checkStudentToken = (req, res) => {
-  /*jwt.verify(req.token, 'secretkey',  (err, authData) => {
-    if(err || authData.user.level !== 'user') {
-      res.sendStatus(403);
-    } else {
-      res.json({
-        authData,
-        message: 'logged as student successfully',
-        success: true
-      })
+exports.checkStudentToken = (req, res, next) => {
+    //Synchronously
+    try {
+      //verify token for user
+      const decode = jwt.verify(req.token, 'secretkey')
+        if(decode.user.level === 'user')
+          next();
+        else res.sendStatus(403);
+    } catch(err) {
+      res.sendStatus(403)
     }
-  })*/
-
-
-  //Synchronously
-  try {
-    const decode = jwt.verify(req.token, 'secretkey')
-      if(decode.user.level === 'user')
-        res.json({token: req.token,
-                  authData: decode,
-                  message: 'logged as student successfully',
-                  success: true
-        });
-      else res.sendStatus(403);
-  } catch(err) {
-    res.sendStatus(403)
-  }
 }
+
+
 
 exports.verifyToken = (req, res, next) => {
   const bearerHeader = req.headers['authorization'];
@@ -100,28 +70,26 @@ exports.verifyToken = (req, res, next) => {
 }
 
 exports.loggedToken = (req, res) => {
-  /*jwt.verify(req.token, 'secretkey', (err, authData) => {
-    if(err) {
-      res.sendStatus(403);
-    } else {
-      res.json({
-        authData,
-        message: 'logged successfully',
-        success: true
-      })
-    }
-  })*/
-
-
-
   try {
-    const decode = jwt.verify(req.token, 'secretkey')
-      res.json({token: req.token,
-                authData: decode,
-                message: 'logged successfully',
-                success: true
-      });
-  } catch(err) {
-    res.sendStatus(403)
-  }
+      const decode = jwt.verify(req.token, 'secretkey')
+        res.json({token: req.token,
+                  authData: decode,
+                  message: 'logged successfully',
+                  success: true
+        });
+      }
+        catch(err) {
+          res.sendStatus(403)
+        }
+}
+
+
+exports.checkAdminPermission = (req, res) => {
+    this.verifyToken(req, res);
+    this.checkAdminToken(req, res);
+}
+
+exports.checkStudentPermission = (req, res, next) => {
+    this.verifyToken(req, res, next);
+    this.checkStudentToken(req, res, next);
 }

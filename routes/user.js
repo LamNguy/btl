@@ -10,9 +10,9 @@ const authController = require('../appserver/controller/authController')
 
 
 router.get('/show',userController.listExam);
-router.get('/enroll',userController.enrollExam);
+router.post('/enroll',userController.enrollExam);
 router.get('/print',userController.printEnrollment);
-router.get('/unenroll',userController.unEnrollment);
+router.post('/unenroll',userController.unEnrollment);
 
 //============================session========================
 
