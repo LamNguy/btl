@@ -11,9 +11,9 @@ const uploadController = require('../appserver/controller/uploadFileController')
 /*
  *   Login
  */
-router.get('/', authController.checkAdminToken);
+//ter.get('/', authController.verifyToken, authController.checkAdminToken);
 //router.use(authController.verifyToken, authController.checkAdminToken)
-router.use(authController.verifyToken);
+//router.use(authController.verifyToken);
 
 
 
@@ -24,63 +24,63 @@ router.use(authController.verifyToken);
 router.get('/user', function (req,res) {
     res.send('manage user');
 });
-router.get('/user/list', authController.checkAdminToken, adminController.listUser) ;
-router.post('/user/create', authController.checkAdminToken, adminController.createNewUser);
+router.get('/user/list', authController.verifyToken, authController.checkAdminToken, adminController.listUser) ;
+router.post('/user/create',  authController.verifyToken, authController.checkAdminToken, adminController.createNewUser);
 
 router.route('/user/:id')
-    .get(authController.checkAdminToken, adminController.findUserByID)
-    .delete( authController.checkAdminToken, adminController.deleteUser)
-    .put(authController.checkAdminToken, adminController.updateUser);
+    .get( authController.verifyToken, authController.checkAdminToken, adminController.findUserByID)
+    .delete(  authController.verifyToken, authController.checkAdminToken, adminController.deleteUser)
+    .put( authController.verifyToken, authController.checkAdminToken, adminController.updateUser);
 
 router.route('/user/:id/courses')
-  .get(authController.checkAdminToken, adminController.getUserCourses)
+  .get( authController.verifyToken, authController.checkAdminToken, adminController.getUserCourses)
 
 
 /*
  *   Course management
  */
-router.get('/course', authController.checkAdminToken, function (req, res) {
+router.get('/course', authController.verifyToken, authController.checkAdminToken, function (req, res) {
     res.send('manage course');
 });
-router.get('/course/list' ,authController.checkAdminToken, adminController.listCourse);
-router.post('/course/create',authController.checkAdminToken, adminController.createNewCourse);
+router.get('/course/list' , authController.verifyToken, authController.checkAdminToken, adminController.listCourse);
+router.post('/course/create', authController.verifyToken, authController.checkAdminToken, adminController.createNewCourse);
 
 router.route('/course/:id')
-    .get(authController.checkAdminToken, adminController.findCourseById)
-    .delete(authController.checkAdminToken, adminController.deleteCourse)
-    .put(authController.checkAdminToken, adminController.updateCourse);
+    .get( authController.verifyToken, authController.checkAdminToken, adminController.findCourseById)
+    .delete( authController.verifyToken, authController.checkAdminToken, adminController.deleteCourse)
+    .put( authController.verifyToken, authController.checkAdminToken, adminController.updateCourse);
 
 /*
  *   Room management
  */
 
-router.get('/room',authController.checkAdminToken, function (req, res) {
+router.get('/room', authController.verifyToken, authController.checkAdminToken, function (req, res) {
     res.send('room home page');
 });
 
-router.get('/room/list' ,authController.checkAdminToken, adminController.listRoom);
-router.post('/room/create' ,authController.checkAdminToken, adminController.createNewRoom);
+router.get('/room/list' , authController.verifyToken, authController.checkAdminToken, adminController.listRoom);
+router.post('/room/create' , authController.verifyToken, authController.checkAdminToken, adminController.createNewRoom);
 
 
 router.route('/room/:id')
-    .get(authController.checkAdminToken, adminController.findRoomById)
-    .delete(authController.checkAdminToken, adminController.deleteRoom)
-    .put(authController.checkAdminToken, adminController.updateRoom);
+    .get( authController.verifyToken, authController.checkAdminToken, adminController.findRoomById)
+    .delete( authController.verifyToken, authController.checkAdminToken, adminController.deleteRoom)
+    .put( authController.verifyToken, authController.checkAdminToken, adminController.updateRoom);
 
 
 
 
 // shift
 
-router.get('/shift', authController.checkAdminToken, function (req,res) {
+router.get('/shift',  authController.verifyToken, authController.checkAdminToken, function (req,res) {
     res.send('shift home page')
 });
-router.get('/shift/list',authController.checkAdminToken, adminController.listShift);
-router.post('/shift/create',authController.checkAdminToken, adminController.createShift);
+router.get('/shift/list', authController.verifyToken, authController.checkAdminToken, adminController.listShift);
+router.post('/shift/create', authController.verifyToken, authController.checkAdminToken, adminController.createShift);
 router.route('/shift/:id')
-    .get(authController.checkAdminToken, adminController.findShiftById)
-    .delete(authController.checkAdminToken, adminController.removeShift)
-    .put(authController.checkAdminToken, adminController.updateShift);
+    .get( authController.verifyToken, authController.checkAdminToken, adminController.findShiftById)
+    .delete( authController.verifyToken, authController.checkAdminToken, adminController.removeShift)
+    .put( authController.verifyToken, authController.checkAdminToken, adminController.updateShift);
 
 
 
@@ -88,18 +88,18 @@ router.route('/shift/:id')
 //router.put('/shift/addCourse',adminController.pushCourse2Shift);
 
 
-router.get('/exam',authController.checkAdminToken, function (req, res, next) {
+router.get('/exam', authController.verifyToken, authController.checkAdminToken, function (req, res, next) {
     res.send('exam management /list /create /update /delete');
 });
 
-router.post('/exam/addShift',authController.checkAdminToken, adminController.pushShift2Exam);
-router.get('/exam/list',  authController.checkAdminToken, adminController.listExam);
-router.post('/exam/create',authController.checkAdminToken, adminController.createExam);
+router.post('/exam/addShift', authController.verifyToken, authController.checkAdminToken, adminController.pushShift2Exam);
+router.get('/exam/list', authController.verifyToken,   authController.checkAdminToken, adminController.listExam);
+router.post('/exam/create', authController.verifyToken, authController.checkAdminToken, adminController.createExam);
 
 // --------------------------------
 router.route('/exam/:id')
-    .get(authController.checkAdminToken, adminController.findExam)
-    .delete(authController.checkAdminToken, adminController.deleteExam);
+    .get( authController.verifyToken, authController.checkAdminToken, adminController.findExam)
+    .delete( authController.verifyToken, authController.checkAdminToken, adminController.deleteExam);
    // .put(adminController.updateShift);
 
 //router.get('/exam/delete', adminController.deleteExam);
@@ -107,10 +107,10 @@ router.route('/exam/:id')
 
 
 
-router.post('/import',authController.checkAdminToken, uploadFileConfig.single('import'),uploadController.importDb);
-router.post('/updateQ', authController.checkAdminToken, uploadFileConfig.single('updateQ'),uploadController.updateStudentQualified);
-router.post('/updateUQ',  authController.checkAdminToken, uploadFileConfig.single('updateUQ'),uploadController.updateStudentUnQualified);
-router.post('/updateAuth',  authController.checkAdminToken, uploadFileConfig.single('updateAuth'), uploadController.updateAuth)
+router.post('/import', authController.verifyToken, authController.checkAdminToken, uploadFileConfig.single('import'),uploadController.importDb);
+router.post('/updateQ',  authController.verifyToken, authController.checkAdminToken, uploadFileConfig.single('updateQ'),uploadController.updateStudentQualified);
+router.post('/updateUQ',   authController.verifyToken, authController.checkAdminToken, uploadFileConfig.single('updateUQ'),uploadController.updateStudentUnQualified);
+router.post('/updateAuth',   authController.verifyToken, authController.checkAdminToken, uploadFileConfig.single('updateAuth'), uploadController.updateAuth)
 
 
 module.exports = router ;
